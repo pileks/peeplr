@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Shell</title>
+    
+    <link href="~/Assets/styles/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Assets/styles/bootstrap.min.css" rel="stylesheet" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+    <script src="~/Scripts/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+    
+    <script src="~/Scripts/internal/app.js"></script>
+</head>
+<body ng-app="peeplr">
+    <h1><span class="glyphicon glyphicon-user"></span>Peeplr</h1>
+    <span>A quick 'n dirty contact list app.</span>
+    
+    <div ng-controller="TestCtrl as test">
+        {{test.text}}
+    </div>
+</body>
+</html>
