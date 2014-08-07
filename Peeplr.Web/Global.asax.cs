@@ -13,6 +13,8 @@ namespace Peeplr.Web
     {
         protected void Application_Start()
         {
+            AutoMapperConfig.ConfigureAutoMapper();
+            
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
