@@ -14,7 +14,8 @@ namespace Peeplr.Web
         protected void Application_Start()
         {
             AutoMapperConfig.ConfigureAutoMapper();
-            
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
