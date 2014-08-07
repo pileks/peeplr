@@ -5,20 +5,29 @@
     <meta name="viewport" content="width=device-width" />
     <title>Shell</title>
     
+    @*Stylin'*@
     <link href="~/Assets/styles/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="~/Assets/styles/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Assets/Styles/site.css" rel="stylesheet" />
 
+    @*Application dependencies*@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
     <script src="~/Scripts/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
-    
+
+    @*Preloading dummy stuff*@
+    <script src="~/Scripts/internal/dummyContacts.js"></script>
+
+    @*Application logic*@
+    <script src="~/Scripts/internal/contacts.js"></script>
     <script src="~/Scripts/internal/app.js"></script>
+
 </head>
-<body ng-app="peeplr">
+<body>
     <h1><span class="glyphicon glyphicon-user"></span>Peeplr</h1>
     <span>A quick 'n dirty contact list app.</span>
-    
-    <div ng-controller="TestCtrl as test">
-        {{test.text}}
-    </div>
+    <div ng-app ="peeplrApp">
+        <div ng-view></div>
+    </divng-app>
 </body>
 </html>
