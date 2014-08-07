@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PeeplrDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="PeeplrDatabaseModelStoreContainer">
+    <EntitySet Name="Contacts" EntityType="PeeplrDatabaseModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Numbers" EntityType="PeeplrDatabaseModel.Store.Numbers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tags" EntityType="PeeplrDatabaseModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContactTag" EntityType="PeeplrDatabaseModel.Store.ContactTag" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ContactNumbers" Association="PeeplrDatabaseModel.Store.ContactNumbers">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="Number" EntitySet="Numbers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContactTag_Contact" Association="PeeplrDatabaseModel.Store.FK_ContactTag_Contact">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="ContactTag" EntitySet="ContactTag" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContactTag_Tag" Association="PeeplrDatabaseModel.Store.FK_ContactTag_Tag">
+      <End Role="Tag" EntitySet="Tags" />
+      <End Role="ContactTag" EntitySet="ContactTag" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contacts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StreetAddress" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="City" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Company" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Numbers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="NumberString" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ContactId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tags">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContactTag">
+    <Key>
+      <PropertyRef Name="Contacts_Id" />
+      <PropertyRef Name="Tags_Id" />
+    </Key>
+    <Property Name="Contacts_Id" Type="int" Nullable="false" />
+    <Property Name="Tags_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ContactNumbers">
+    <End Role="Contact" Type="PeeplrDatabaseModel.Store.Contacts" Multiplicity="1" />
+    <End Role="Number" Type="PeeplrDatabaseModel.Store.Numbers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Number">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContactTag_Contact">
+    <End Role="Contact" Type="PeeplrDatabaseModel.Store.Contacts" Multiplicity="1" />
+    <End Role="ContactTag" Type="PeeplrDatabaseModel.Store.ContactTag" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactTag">
+        <PropertyRef Name="Contacts_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContactTag_Tag">
+    <End Role="ContactTag" Type="PeeplrDatabaseModel.Store.ContactTag" Multiplicity="*" />
+    <End Role="Tag" Type="PeeplrDatabaseModel.Store.Tags" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Tag">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContactTag">
+        <PropertyRef Name="Tags_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="PeeplrDatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="PeeplrDatabaseModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contacts" EntityType="PeeplrDatabaseModel.Contact" />
+          <EntitySet Name="Numbers" EntityType="PeeplrDatabaseModel.Number" />
+          <EntitySet Name="Tags" EntityType="PeeplrDatabaseModel.Tag" />
+          <AssociationSet Name="ContactNumbers" Association="PeeplrDatabaseModel.ContactNumbers">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Number" EntitySet="Numbers" />
+          </AssociationSet>
+          <AssociationSet Name="ContactTag" Association="PeeplrDatabaseModel.ContactTag">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" />
+          <Property Name="LastName" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="StreetAddress" Type="String" Nullable="true" />
+          <Property Name="City" Type="String" Nullable="true" />
+          <Property Name="Company" Type="String" Nullable="true" />
+          <NavigationProperty Name="Numbers" Relationship="PeeplrDatabaseModel.ContactNumbers" FromRole="Contact" ToRole="Number" />
+          <NavigationProperty Name="Tags" Relationship="PeeplrDatabaseModel.ContactTag" FromRole="Contact" ToRole="Tag" />
+        </EntityType>
+        <EntityType Name="Number">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="NumberString" Type="String" Nullable="false" />
+          <NavigationProperty Name="Contact" Relationship="PeeplrDatabaseModel.ContactNumbers" FromRole="Number" ToRole="Contact" />
+          <Property Name="ContactId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="Contacts" Relationship="PeeplrDatabaseModel.ContactTag" FromRole="Tag" ToRole="Contact" />
+        </EntityType>
+        <Association Name="ContactNumbers">
+          <End Type="PeeplrDatabaseModel.Contact" Role="Contact" Multiplicity="1" />
+          <End Type="PeeplrDatabaseModel.Number" Role="Number" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Number">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ContactTag">
+          <End Type="PeeplrDatabaseModel.Contact" Role="Contact" Multiplicity="*" />
+          <End Type="PeeplrDatabaseModel.Tag" Role="Tag" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PeeplrDatabaseModelStoreContainer" CdmEntityContainer="PeeplrDatabaseModelContainer">
+    <EntitySetMapping Name="Contacts">
+      <EntityTypeMapping TypeName="IsTypeOf(PeeplrDatabaseModel.Contact)">
+        <MappingFragment StoreEntitySet="Contacts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Numbers">
+      <EntityTypeMapping TypeName="IsTypeOf(PeeplrDatabaseModel.Number)">
+        <MappingFragment StoreEntitySet="Numbers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="NumberString" ColumnName="NumberString" />
+          <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="IsTypeOf(PeeplrDatabaseModel.Tag)">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ContactTag" TypeName="PeeplrDatabaseModel.ContactTag" StoreEntitySet="ContactTag">
+      <EndProperty Name="Contact">
+        <ScalarProperty Name="Id" ColumnName="Contacts_Id" />
+      </EndProperty>
+      <EndProperty Name="Tag">
+        <ScalarProperty Name="Id" ColumnName="Tags_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

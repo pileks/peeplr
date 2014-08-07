@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peeplr.Web", "Peeplr.Web\Peeplr.Web.csproj", "{4F5E4070-2A75-4471-AFCD-AB02254F9099}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peeplr.Data", "Peeplr.Data\Peeplr.Data.csproj", "{772A1F16-0DEB-456A-906E-1FC567CED9E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4F5E4070-2A75-4471-AFCD-AB02254F9099}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F5E4070-2A75-4471-AFCD-AB02254F9099}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F5E4070-2A75-4471-AFCD-AB02254F9099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772A1F16-0DEB-456A-906E-1FC567CED9E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772A1F16-0DEB-456A-906E-1FC567CED9E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772A1F16-0DEB-456A-906E-1FC567CED9E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772A1F16-0DEB-456A-906E-1FC567CED9E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
