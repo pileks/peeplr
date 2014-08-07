@@ -133,6 +133,9 @@
     <Content Include="Assets\Styles\bootstrap-theme.min.css" />
     <Content Include="Assets\Styles\bootstrap.min.css" />
     <Content Include="Assets\Styles\site.css" />
+    <Content Include="Assets\Templates\Contacts\contactCreateUpdate.html" />
+    <Content Include="Assets\Templates\Contacts\contactDelete.html" />
+    <Content Include="Assets\Templates\Contacts\contactDetails.html" />
     <Content Include="Assets\Templates\Contacts\contactsList.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

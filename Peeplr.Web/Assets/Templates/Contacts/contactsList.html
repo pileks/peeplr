@@ -1,5 +1,7 @@
-﻿<ul ng-repeat="contact in contactsCtrl.contacts">
+﻿<a href="/#/contact/create">New contact</a>
+
+<ul ng-repeat="contact in contacts">
     <li>
-        <span>{{contact.firstName}}</span> <span>{{contact.lastName}}</span>
+        <a href="/#/contact/{{contact.id}}"><span>{{contact.firstName}}</span> <span>{{contact.lastName}}</span></a>
     </li>
 </ul>

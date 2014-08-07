@@ -1,0 +1,26 @@
+﻿<div>
+    <a href="/#/">HOME</a>
+    
+    <div>
+        <span>Name: {{contact.firstName}} {{contact.lastName}}</span>
+    </div>
+    <div>
+        <span>Email: {{contact.email}}</span>
+    </div>
+    <div>
+        <span>Address: {{contact.streetAddress}}, {{contact.city}}</span>
+    </div>
+    <div>
+        <span>Company: {{contact.company}}</span>
+    </div>
+    <div>
+        <span>Tags: </span>
+        <span ng-repeat="tag in contact.tags">{{tag.name}} </span>
+    </div>
+    <div>
+        <span>Numbers: </span>
+        <span ng-repeat="number in contact.numbers">{{number.type}}: {{number.numberString}} </span>
+    </div>
+    <a href="/#/contact/{{contact.id}}/update">Edit</a>
+    <a href="/#/contact/{{contact.id}}/delete">Delete</a>
+</div>
