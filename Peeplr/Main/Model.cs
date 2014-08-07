@@ -10,6 +10,7 @@ namespace Peeplr.Main.Model.Queries
     public interface IContactQueries 
     {
         IEnumerable<ent::Contact> GetAll();
+        IEnumerable<ent::Contact> Get_forQuery(string query);
     }
 }
 

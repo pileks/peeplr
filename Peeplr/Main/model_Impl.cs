@@ -18,6 +18,10 @@ namespace Peeplr.Main.Model.Queries
                 return map::Mapper.Map<ent::Contact[]>(data);
             }
         }
+        public IEnumerable<Contact> Get_forQuery(string query)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
 
