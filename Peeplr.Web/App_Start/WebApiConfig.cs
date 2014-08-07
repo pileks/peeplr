@@ -14,11 +14,13 @@ namespace Peeplr.Web
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
+
+            config.Routes.MapHttpRoute(name: "Contacts_GetAll", routeTemplate: "api/contacts", defaults: new { controller = "ContactsApi", action = "GetAll" });
         }
     }
 }
