@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    var app = angular.module('peeplrApp', ['ngRoute', 'contactsControllers', 'decipher.tags', 'ui.bootstrap.typeahead']);
+    var app = angular.module('peeplrApp', ['ngRoute', 'contactsControllers', 'ui.bootstrap.typeahead']);
 
     app.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.
