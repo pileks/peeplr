@@ -1,5 +1,10 @@
-﻿<a href="/#/contact/create">New contact</a>
+﻿<div>
+    <a href="/#/contact/create">New contact</a>
+</div>
 
+<div>
+    <input ng-model="searchQuery" placeholder="Search" title="Search" />
+</div>
 <ul ng-repeat="contact in contacts">
     <li>
         <a href="/#/contact/{{contact.id}}"><span>{{contact.firstName}}</span> <span>{{contact.lastName}}</span></a>

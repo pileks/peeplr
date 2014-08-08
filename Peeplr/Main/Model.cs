@@ -9,6 +9,7 @@ namespace Peeplr.Main.Model.Queries
 {
     public interface IContactQueries 
     {
+        ent::Contact GetSingle(int id);
         IEnumerable<ent::Contact> GetAll();
         IEnumerable<ent::Contact> Get_forQuery(string query);
     }
@@ -49,6 +50,6 @@ namespace Peeplr.Main.Model.Commands
         void UpdateAndAddTags_forContact(int contactId, IEnumerable<ent::Tag> tags);
 
         void Create(string name, int contactId);
-        void AssignToContact(int tagId, int contactId);
+        void AssignToContact(string name, int contactId);
     }
 }

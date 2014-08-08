@@ -26,6 +26,8 @@ namespace Peeplr.Web
             config.Routes.MapHttpRoute(name: "Contacts_Create", routeTemplate: "api/contacts/create", defaults: new { controller = "ContactsApi", action = "Create" });
             config.Routes.MapHttpRoute(name: "Contacts_Update", routeTemplate: "api/contacts/update/{id}", defaults: new { controller = "ContactsApi", action = "Update" });
             config.Routes.MapHttpRoute(name: "Contacts_Delete", routeTemplate: "api/contacts/delete/{id}", defaults: new { controller = "ContactsApi", action = "Delete" });
+
+            config.Routes.MapHttpRoute(name: "Contacts_GetSingle", routeTemplate: "api/contacts/{id}", defaults: new { controller = "ContactsApi", action = "GetSingle" });
         }
     }
 }

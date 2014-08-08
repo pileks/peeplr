@@ -10,6 +10,13 @@ namespace Peeplr.Main.Model.Queries
 {
     public class ContactQueries : IContactQueries
     {
+        public ent::Contact GetSingle(int id)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                return am::Mapper.Map<ent::Contact>(db.Contacts.SingleOrDefault(x => x.Id == id));
+            }
+        }
         public IEnumerable<Contact> GetAll()
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
@@ -150,6 +157,10 @@ namespace Peeplr.Main.Model.Commands
 
                 if (contact != null)
                 {
+                    //TODO: Insert appropriate tag and number commands
+                    db.Numbers.RemoveRange(contact.Numbers);
+                    contact.Tags.Clear();
+                    db.SaveChanges();
                     db.Contacts.Remove(contact);
                     db.SaveChanges();
                 }
@@ -257,7 +268,7 @@ namespace Peeplr.Main.Model.Commands
 
                 foreach (var t in tagsToUpdate)
                 {
-                    AssignToContact(t.Id, contactId);
+                    AssignToContact(t.Name, contactId);
                 }
             }
         }
@@ -277,11 +288,11 @@ namespace Peeplr.Main.Model.Commands
                 db.SaveChanges();
             }
         }
-        public void AssignToContact(int tagId, int contactId)
+        public void AssignToContact(string name, int contactId)
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
-                var tag = db.Tags.SingleOrDefault(x => x.Id == tagId);
+                var tag = db.Tags.SingleOrDefault(x => x.Name == name);
                 var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
 
                 contact.Tags.Add(tag);

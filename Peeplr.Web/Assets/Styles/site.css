@@ -1,6 +1,6 @@
-﻿.ng-invalid.ng-dirty { 
+﻿textarea.ng-invalid.ng-dirty { 
   border-color: red; 
 }
-.ng-valid.ng-dirty { 
+textarea.ng-valid.ng-dirty { 
   border-color: green; 
 }

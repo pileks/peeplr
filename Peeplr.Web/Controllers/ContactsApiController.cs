@@ -28,7 +28,13 @@ using Newtonsoft.Json.Linq;
         {
             return contactQueries.GetAll().ToList();
         }
-        
+
+        [HttpGet]
+        public ent::Contact GetSingle(int id)
+        {
+            return contactQueries.GetSingle(id);
+        }
+
         [HttpGet]
         public List<ent::Contact> Get_forQuery(string q)
         {

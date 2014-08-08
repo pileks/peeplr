@@ -17,7 +17,7 @@
 
         <fieldset class="form-group">
             <span>Tags: </span>
-            <div ng-repeat="tag in tags">
+            <div ng-repeat="tag in contact.tags">
                 <textarea ng-model="tag.name" class="form-control" placeholder="Tag" title="Tag"></textarea>
                 <button ng-click="removeTag(tag)" class="btn btn-danger">Remove</button>
             </div>
@@ -26,7 +26,7 @@
 
         <fieldset class="form-group">
             <span>Numbers: </span><br />
-            <div ng-repeat="number in numbers">
+            <div ng-repeat="number in contact.numbers">
                 <select ng-model="number.type" class="form-control" ng-options="type for type in availableNumberTypes" title="Type">
                     <option value="defaultNumberType"></option>
                 </select>

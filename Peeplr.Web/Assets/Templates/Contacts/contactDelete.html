@@ -5,7 +5,7 @@
         <span>Are you sure you want to delete {{contact.firstName}} {{contact.lastName}}?</span>
     </div>
     <div>
-        <button ng-click="deleteContact()" class="btn btn-primary">YES</button>
-        <button ng-click="goBackToContact()" class="btn btn-danger">NO</button>
+        <button ng-click="deleteContact()" ng-disabled="{{isActionPending}}" class="btn btn-primary">YES</button>
+        <button ng-click="goBackToContact()" ng-disabled="{{isActionPending}}" class="btn btn-danger">NO</button>
     </div>
 </div>
