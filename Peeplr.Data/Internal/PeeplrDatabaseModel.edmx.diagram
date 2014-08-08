@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="824fe47cac824e2b84dfb03aecdbba64" Name="Diagram1" >
+        <EntityTypeShape EntityType="PeeplrDatabaseModel.Contact" Width="1.5" PointX="5.5" PointY="2.5" />
+        <EntityTypeShape EntityType="PeeplrDatabaseModel.Number" Width="1.5" PointX="8.875" PointY="1.75" />
+        <EntityTypeShape EntityType="PeeplrDatabaseModel.Tag" Width="1.5" PointX="8.875" PointY="4.375" />
+        <AssociationConnector Association="PeeplrDatabaseModel.ContactNumbers" />
+        <AssociationConnector Association="PeeplrDatabaseModel.ContactTag" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
