@@ -40,7 +40,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
     <Property Name="NumberString" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ContactId" Type="int" Nullable="false" />
   </EntityType>
@@ -131,7 +131,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" />
           <Property Name="NumberString" Type="String" Nullable="false" />
           <NavigationProperty Name="Contact" Relationship="PeeplrDatabaseModel.ContactNumbers" FromRole="Number" ToRole="Contact" />
           <Property Name="ContactId" Type="Int32" Nullable="false" />

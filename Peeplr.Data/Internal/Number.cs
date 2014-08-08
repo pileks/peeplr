@@ -15,7 +15,7 @@ namespace Peeplr.Data.Internal
     public partial class Number
     {
         public int Id { get; set; }
-        public int Type { get; set; }
+        public string Type { get; set; }
         public string NumberString { get; set; }
         public int ContactId { get; set; }
     

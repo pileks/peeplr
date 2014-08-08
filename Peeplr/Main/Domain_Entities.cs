@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Peeplr.Main.Model
 {
@@ -22,15 +18,8 @@ namespace Peeplr.Main.Model
     public class Number
     {
         public int Id { get; set; }
-        public NumberType Type { get; set; }
+        public string Type { get; set; }
         public string NumberString { get; set; }
-
-        public enum NumberType
-        {
-            mobile = 0,
-            home,
-            work
-        }
     }
 
     public class Tag
@@ -46,7 +35,7 @@ namespace Peeplr.Main.Model.Mappers
     using data = Peeplr.Data.Internal;
     using ent = Peeplr.Main.Model;
 
-    public static class AutoMapperConfiguration 
+    public static class AutoMapperConfiguration
     {
         public static void ConfigureDataToDomainModelMappings()
         {

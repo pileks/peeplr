@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/07/2014 19:24:28
+-- Date Created: 08/08/2014 01:30:20
 -- Generated from EDMX file: D:\Dev\peeplr\Peeplr.Data\Internal\PeeplrDatabaseModel.edmx
 -- --------------------------------------------------
 
@@ -17,11 +17,32 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_ContactNumbers]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Numbers] DROP CONSTRAINT [FK_ContactNumbers];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ContactTag_Contact]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ContactTag] DROP CONSTRAINT [FK_ContactTag_Contact];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ContactTag_Tag]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ContactTag] DROP CONSTRAINT [FK_ContactTag_Tag];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[Contacts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Contacts];
+GO
+IF OBJECT_ID(N'[dbo].[Numbers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Numbers];
+GO
+IF OBJECT_ID(N'[dbo].[Tags]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Tags];
+GO
+IF OBJECT_ID(N'[dbo].[ContactTag]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ContactTag];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -42,7 +63,7 @@ GO
 -- Creating table 'Numbers'
 CREATE TABLE [dbo].[Numbers] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Type] int  NOT NULL,
+    [Type] nvarchar(max)  NOT NULL,
     [NumberString] nvarchar(max)  NOT NULL,
     [ContactId] int  NOT NULL
 );

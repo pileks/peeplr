@@ -4,7 +4,16 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Shell</title>
-    
+
+    @*Preloading dummy stuff*@
+    <script src="~/Scripts/internal/dummyContacts.js"></script>
+
+    @*Preloading business rules*@
+    <script type="text/javascript">
+        //window.preloaded = { };
+        window.preloaded.numberTypes = @Html.Raw(Json.Encode(Peeplr.Main.Domain_BusinessRules.NumberTypes))
+    </script>
+
     @*Stylin'*@
     <link href="~/Assets/styles/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="~/Assets/styles/bootstrap.min.css" rel="stylesheet" />
@@ -14,9 +23,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
     <script src="~/Scripts/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
-
-    @*Preloading dummy stuff*@
-    <script src="~/Scripts/internal/dummyContacts.js"></script>
 
     @*Application logic*@
     <script src="~/Scripts/internal/contacts.js"></script>

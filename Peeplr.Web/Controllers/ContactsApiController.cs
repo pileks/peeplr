@@ -11,6 +11,8 @@ namespace Peeplr.Web.Controllers
     using Peeplr.Main.Model.Queries;
     using Peeplr.Main.Model.Commands;
 
+using Newtonsoft.Json.Linq;
+
     public class ContactsApiController : ApiController
     {
         private readonly IContactQueries contactQueries;
@@ -20,10 +22,35 @@ namespace Peeplr.Web.Controllers
             this.contactQueries = contactQueries;
             this.contactCommands = contactCommands;
         }
-
+        
+        [HttpGet]
         public List<ent::Contact> GetAll()
         {
             return contactQueries.GetAll().ToList();
+        }
+        
+        [HttpGet]
+        public List<ent::Contact> Get_forQuery(string q)
+        {
+            return contactQueries.Get_forQuery(q).ToList();
+        }
+
+        [HttpGet]
+        public void Delete(int id)
+        {
+            contactCommands.Delete(id);
+        }
+
+        [HttpPost]
+        public void Create(ent::Contact contact)
+        {
+            contactCommands.Create(contact);
+        }
+
+        [HttpPost]
+        public void Update(int id, ent::Contact contact)
+        {
+            contactCommands.Update(id, contact);
         }
     }
 }
