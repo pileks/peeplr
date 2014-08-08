@@ -35,9 +35,6 @@
             success(function (data) {
                 $scope.contact = data;
             });
-        //var contact = window.preloaded.contacts.filter(function (value, index, array) { return value.id == contactId; })[0];
-
-        //$scope.contact = contact;
     }]);
 
     app.controller('ContactCreateUpdateCtrl', ['$http', '$location', '$routeParams', '$scope', function ($http, $location, $routeParams, $scope) {
@@ -61,10 +58,6 @@
                 error(function () {
                     $location.path('/');
                 });
-
-            //$scope.contact = window.preloaded.contacts.filter(function (value, index, array) { return value.id == $routeParams.id; })[0];
-            //$scope.tags = $scope.contact.tags;
-            //$scope.numbers = $scope.contact.numbers;
         }
 
         $scope.availableNumberTypes = window.preloaded.numberTypes;
@@ -89,41 +82,13 @@
         $scope.createUpdateContact = function () {
             $scope.isActionPending = true;
             if ($scope.isUpdate) {
-
                 $http.post('/api/contacts/update/' + $scope.contact.id, $scope.contact).success(function () {
                     $location.path('/');
                 });
-
-                //var contact = window.preloaded.contacts.filter(function (value, index, array) { return value.id == $routeParams.id; })[0];
-                //var contactIndex = window.preloaded.contacts.indexOf(contact);
-
-                //window.preloaded.contacts[contactIndex].firstName = $scope.contact.firstName;
-                //window.preloaded.contacts[contactIndex].lastName = $scope.contact.lastName;
-                //window.preloaded.contacts[contactIndex].email = $scope.contact.email;
-                //window.preloaded.contacts[contactIndex].streetAddress = $scope.contact.streetAddress || '';
-                //window.preloaded.contacts[contactIndex].city = $scope.contact.city || '';
-                //window.preloaded.contacts[contactIndex].company = $scope.contact.company || '';
-                //window.preloaded.contacts[contactIndex].tags = $scope.tags;
-                //window.preloaded.contacts[contactIndex].numbers = $scope.numbers;
             } else {
                 $http.post('/api/contacts/create', $scope.contact).success(function () {
                     $location.path('/');
                 });
-                //var newId = preloaded.contacts.length + 1;
-
-                //var newContact = {
-                //    id: newId,
-                //    firstName: $scope.contact.firstName,
-                //    lastName: $scope.contact.lastName,
-                //    email: $scope.contact.email,
-                //    streetAddress: $scope.contact.streetAddress || '',
-                //    city: $scope.contact.city || '',
-                //    company: $scope.contact.company || '',
-                //    tags: $scope.tags,
-                //    numbers: $scope.numbers
-                //};
-
-                //window.preloaded.contacts.push(newContact);
             }
         };
     }]);
@@ -131,26 +96,14 @@
     app.controller('ContactDeleteCtrl', ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
 
         var contactId = $routeParams.id;
-        
-        $scope.isActionPending = true;
 
         $http.get('/api/contacts/' + contactId.toString()).
             success(function (data) {
-
-                $scope.isActionPending = false;
                 $scope.contact = data;
             }).
             error(function () {
                 $location.path('/');
             });
-
-        //var contact = window.preloaded.contacts.filter(function (value, index, array) { return value.id == contactId; })[0];
-
-        //if (!contact) {
-        //    $location.path('/');
-        //}
-
-        //$scope.contact = contact;
 
         $scope.deleteContact = function () {
 
@@ -163,13 +116,32 @@
                 error(function () {
                     $scope.isActionPending = false;
                 });
-            //var index = window.preloaded.contacts.indexOf(contact);
-
-            //window.preloaded.contacts.splice(index, 1);
         };
 
         $scope.goBackToContact = function () {
-            $location.path('/contact/' + contact.id.toString());
-        }
+            $location.path('/contact/' + $scope.contact.id.toString());
+        };
     }]);
+
+    app.directive('peeplrValidatePhoneNumber', function () {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function (scope, element, attr, ctrl) {
+                var phoneNumberRegex = new RegExp(/^\+?(\d+ )*\d+$/);
+                
+                ctrl.$parsers.unshift(function (value) {
+                    var valid = phoneNumberRegex.test(value);
+                    ctrl.$setValidity('phoneNumber', valid);
+
+                    return valid ? value : undefined;
+                });
+                ctrl.$formatters.unshift(function (value) {
+                    ctrl.$setValidity('phoneNumber', phoneNumberRegex.test(value));
+
+                    return value;
+                });
+            }
+        };
+    });
 })();

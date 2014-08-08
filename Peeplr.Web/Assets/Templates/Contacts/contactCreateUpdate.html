@@ -3,22 +3,22 @@
 
         <fieldset class="form-group">
             <span>Required fields</span>
-            <textarea ng-model="contact.firstName" class="form-control" placeholder="First name" title="First name" required></textarea>
-            <textarea ng-model="contact.lastName" class="form-control" placeholder="Last name" title="Last name" required></textarea>
-            <textarea ng-model="contact.email" class="form-control" type="email" placeholder="Email" title="Email" required></textarea>
+            <input ng-model="contact.firstName" class="form-control" placeholder="First name" title="First name" required />
+            <input ng-model="contact.lastName" class="form-control" placeholder="Last name" title="Last name" required />
+            <input ng-model="contact.email" class="form-control" type="email" placeholder="Email" title="Email" required />
         </fieldset>
 
         <fieldset class="form-group">
             <span>Optional fields</span>
-            <textarea ng-model="contact.streetAddress" class="form-control" placeholder="Street address" title="Street address"></textarea>
-            <textarea ng-model="contact.city" class="form-control" placeholder="City" title="City"></textarea>
-            <textarea ng-model="contact.company" class="form-control" placeholder="Company" title="Company"></textarea>
+            <input ng-model="contact.streetAddress" class="form-control" placeholder="Street address" title="Street address">
+            <input ng-model="contact.city" class="form-control" placeholder="City" title="City">
+            <input ng-model="contact.company" class="form-control" placeholder="Company" title="Company" />
         </fieldset>
 
         <fieldset class="form-group">
             <span>Tags: </span>
             <div ng-repeat="tag in contact.tags">
-                <textarea ng-model="tag.name" class="form-control" placeholder="Tag" title="Tag"></textarea>
+                <input ng-model="tag.name" class="form-control" placeholder="Tag" title="Tag" required />
                 <button ng-click="removeTag(tag)" class="btn btn-danger">Remove</button>
             </div>
             <button ng-click="addTag()" class="btn btn-primary">Add tag</button>
@@ -30,7 +30,7 @@
                 <select ng-model="number.type" class="form-control" ng-options="type for type in availableNumberTypes" title="Type">
                     <option value="defaultNumberType"></option>
                 </select>
-                <textarea ng-model="number.numberString" class="form-control" placeholder="Phone number" title="Phone number"></textarea>
+                <input ng-model="number.numberString" peeplr-validate-phone-number class="form-control" placeholder="Phone number" title="Phone number" required />
                 <button ng-click="removeNumber(number)" class="btn btn-danger">Remove</button>
             </div>
             <button ng-click="addNumber()" class="btn btn-primary">Add number</button>

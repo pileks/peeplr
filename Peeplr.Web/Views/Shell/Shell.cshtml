@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Shell</title>
+    <title>Peeplr</title>
 
     @*Preloading dummy stuff*@
     <script src="~/Scripts/internal/dummyContacts.js"></script>
@@ -31,10 +31,12 @@
 
 </head>
 <body>
-    <h1><span class="glyphicon glyphicon-user"></span>Peeplr</h1>
+    <a href="/#/">
+        <h1><span class="glyphicon glyphicon-user"></span>Peeplr</h1>
+    </a>
     <span>A quick 'n dirty contact list app.</span>
-    <div ng-app ="peeplrApp">
+    <div ng-app="peeplrApp">
         <div ng-view></div>
-    </divng-app>
+        </divng-app>
 </body>
 </html>
