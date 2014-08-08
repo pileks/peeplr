@@ -5,9 +5,10 @@
 
 ----------
 
-Current state: **Back-end API working, rudimentarily tested.**
+Current state: **Application functional, mostly :)**
 
-TODO (will probably be done in this order):
+**TODO:**
 
- - Connect front-end to API
+ - Server-side validation
+ - Check edge cases for API once validation implemented
  - Do some front-end finesse
