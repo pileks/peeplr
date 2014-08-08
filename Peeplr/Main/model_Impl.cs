@@ -169,9 +169,9 @@ namespace Peeplr.Main.Model.Commands
         {
             var dbNumbers = numberQueries.GetNumbersForContact(contactId);
 
-            var numbersToCreate = numbers.Except(dbNumbers);
-            var numbersToUpdate = numbers.Intersect(dbNumbers);
-            var numbersToDelete = dbNumbers.Except(numbers);
+            var numbersToCreate = numbers.Where(n => !dbNumbers.Any(x => x.Id == n.Id));
+            var numbersToUpdate = numbers.Where(n => dbNumbers.Any(x => x.Id == n.Id));
+            var numbersToDelete = dbNumbers.Where(n => !numbers.Any(x => x.Id == n.Id));
 
             foreach (var n in numbersToCreate)
             {
@@ -248,6 +248,7 @@ namespace Peeplr.Main.Model.Commands
                 var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
 
                 contact.Tags.Clear();
+                db.SaveChanges();
 
                 foreach (var t in tagsToCreate)
                 {
