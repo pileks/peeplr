@@ -45,3 +45,38 @@ namespace Peeplr.Main.Model.Mappers
         }
     }
 }
+
+namespace Peeplr.Main.Model.Validation
+{
+    using ent = Peeplr.Main.Model;
+    using System.Linq;
+    public static class Contact
+    {
+        public static bool IsValid(ent::Contact contact)
+        {
+            return
+                !string.IsNullOrWhiteSpace(contact.FirstName) &&
+                !string.IsNullOrWhiteSpace(contact.LastName) &&
+                !string.IsNullOrWhiteSpace(contact.Email) &&
+                contact.Numbers.All(number => Number.IsValid(number)) &&
+                contact.Tags.All(tag => Tag.IsValid(tag));
+        }
+    }
+    public static class Number
+    {
+        public static bool IsValid(ent::Number number)
+        {
+            return
+                !string.IsNullOrWhiteSpace(number.NumberString) &&
+                !string.IsNullOrWhiteSpace(number.Type);
+        }
+    }
+    public static class Tag
+    {
+        public static bool IsValid(ent::Tag tag)
+        {
+            return
+                !string.IsNullOrWhiteSpace(tag.Name);
+        }
+    }
+}

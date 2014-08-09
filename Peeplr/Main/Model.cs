@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using ent = Peeplr.Main.Model;
 using data = Peeplr.Data.Internal;
 
-
 namespace Peeplr.Main.Model.Queries
 {
     public interface IContactQueries 
@@ -22,8 +21,6 @@ namespace Peeplr.Main.Model.Queries
     public interface ITagQueries
     {
         IEnumerable<ent::Tag> GetAll();
-        IEnumerable<ent::Tag> Get_forContact(int contactId);
-        int? TryGetId_forTagName(string name);
     }
 }
 

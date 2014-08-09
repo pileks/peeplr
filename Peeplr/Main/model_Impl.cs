@@ -61,34 +61,15 @@ namespace Peeplr.Main.Model.Queries
                 return am::Mapper.Map<ent::Tag[]>(db.Tags);
             }
         }
-        public IEnumerable<Tag> Get_forContact(int contactId)
-        {
-            using (var db = new data::PeeplrDatabaseModelContainer())
-            {
-                var tags = db.Contacts.SingleOrDefault(x => x.Id == contactId).Tags;
-
-                return am::Mapper.Map<ent::Tag[]>(tags);
-            }
-        }
-        public int? TryGetId_forTagName(string name)
-        {
-            using (var db = new data::PeeplrDatabaseModelContainer())
-            {
-                var tag = db.Tags.SingleOrDefault(x => x.Name == name);
-
-                if (tag != null)
-                {
-                    return tag.Id;
-                }
-                return null;
-            }
-        }
     }
 }
 
 namespace Peeplr.Main.Model.Commands
 {
     using Peeplr.Main.Model.Queries;
+    using System.Diagnostics.Contracts;
+
+    using entValid = Peeplr.Main.Model.Validation;
 
     public class ContactCommands : IContactCommands
     {
@@ -102,9 +83,10 @@ namespace Peeplr.Main.Model.Commands
 
         public void Create(ent::Contact contact)
         {
+            Contract.Assert(entValid::Contact.IsValid(contact));
+
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
-                //dodavanje kontakta
                 var dbContact = new data::Contact()
                 {
                     FirstName = contact.FirstName,
@@ -118,18 +100,18 @@ namespace Peeplr.Main.Model.Commands
                 db.Contacts.Add(dbContact);
                 db.SaveChanges();
 
-                //dodavanje brojeva
                 foreach (var n in contact.Numbers)
                 {
                     numberCommands.Create(n.Type, n.NumberString, dbContact.Id);
                 }
 
-                //dodavanje/povezivanje tagova
                 tagCommands.UpdateAndAddTags_forContact(dbContact.Id, contact.Tags);
             }
         }
         public void Update(int contactId, Contact contact)
         {
+            Contract.Assert(entValid::Contact.IsValid(contact));
+
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
                 var dbContact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
@@ -148,7 +130,6 @@ namespace Peeplr.Main.Model.Commands
 
             tagCommands.UpdateAndAddTags_forContact(contactId, contact.Tags);
         }
-
         public void Delete(int contactId)
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
@@ -157,10 +138,10 @@ namespace Peeplr.Main.Model.Commands
 
                 if (contact != null)
                 {
-                    //TODO: Insert appropriate tag and number commands
                     db.Numbers.RemoveRange(contact.Numbers);
                     contact.Tags.Clear();
                     db.SaveChanges();
+
                     db.Contacts.Remove(contact);
                     db.SaveChanges();
                 }
@@ -216,6 +197,8 @@ namespace Peeplr.Main.Model.Commands
         }
         public void Update(ent::Number number)
         {
+            Contract.Assert(entValid::Number.IsValid(number));
+
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
                 var dbNumber = db.Numbers.SingleOrDefault(x => x.Id == number.Id);
@@ -252,7 +235,6 @@ namespace Peeplr.Main.Model.Commands
 
             var tagsToCreate = tags.Where(t => !dbTags.Any(x => x.Name == t.Name));
             var tagsToUpdate = tags.Except(tagsToCreate);
-
 
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
