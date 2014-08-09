@@ -31,7 +31,7 @@ namespace Peeplr.Main.Model.Queries
             return GetAll().Where(contact =>
             {
                 var tags = string.Join("", contact.Tags.Select(tag => tag.Name));
-                var searchString = contact.FirstName.ToLower() + contact.LastName.ToLower() + tags.ToLower();
+                var searchString = contact.FirstName.ToLower() + " " + contact.LastName.ToLower() + " " + tags.ToLower();
 
                 return queryParts.All(part => searchString.Contains(part));
             });
