@@ -11,8 +11,6 @@ namespace Peeplr.Web.Controllers
     using Peeplr.Main.Model.Queries;
     using Peeplr.Main.Model.Commands;
 
-using Newtonsoft.Json.Linq;
-
     public class ContactsApiController : ApiController
     {
         private readonly IContactQueries contactQueries;

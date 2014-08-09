@@ -7,7 +7,6 @@ namespace Peeplr.Web.DependencyResolution
 
     public class PeeplrRegistry : Registry
     {
-
         public PeeplrRegistry()
         {
             Scan( scan =>
@@ -15,8 +14,6 @@ namespace Peeplr.Web.DependencyResolution
                 scan.Assembly("Peeplr");
                 scan.SingleImplementationsOfInterface();
             });
-            //For<IContactQueries>().Use<ContactQueries>();
-            //For<IContactCommands>().Use<ContactCommands>();
         }
     }
 }

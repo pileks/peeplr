@@ -13,11 +13,7 @@ namespace Peeplr.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "Shell", 
-                url: "", 
-                defaults: new { controller = "Shell", action = "Shell" }
-            );
+            routes.MapRoute(name: "Shell", url: "", defaults: new { controller = "Shell", action = "Shell" });
         }
     }
 }
