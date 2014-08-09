@@ -1,0 +1,11 @@
+﻿<script id="template/typeahead/typeahead-popup.html" type="text/ng-template">
+    <ul class="dropdown-menu" ng-if="isOpen()" ng-style="{top: position.top+'px', left: position.left+'px'}" style="display: block;" role="listbox" aria-hidden="{{!isOpen()}}">
+        <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{match.id}}">
+            <div typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+        </li>
+    </ul>
+</script>
+
+<script id="template/typeahead/typeahead-match.html" type="text/ng-template">
+    <a tabindex="-1" bind-html-unsafe="match.label | typeaheadHighlight:query"></a>
+</script>

@@ -1,8 +1,8 @@
-﻿<div>
-    <div>
-        <span>Are you sure you want to delete {{contact.firstName}} {{contact.lastName}}?</span>
-    </div>
-    <div>
+﻿<div class="row">
+    <span>Are you sure you want to delete {{contact.firstName}} {{contact.lastName}}?</span>
+</div>
+<div class="row">
+    <div class="col-md-4 col-md-offset-4">
         <button ng-click="deleteContact()" class="btn btn-primary">YES</button>
         <button ng-click="goBackToContact()" class="btn btn-danger">NO</button>
     </div>

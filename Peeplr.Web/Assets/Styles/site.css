@@ -1,6 +1,9 @@
-﻿.form-control.ng-invalid.ng-dirty { 
+﻿form .form-control.ng-invalid.ng-dirty { 
   border-color: red; 
 }
-.form-control.ng-valid.ng-dirty { 
+form .form-control.ng-valid.ng-dirty { 
   border-color: green; 
+}
+.peeplr-main-container {
+    max-width: 600px;
 }

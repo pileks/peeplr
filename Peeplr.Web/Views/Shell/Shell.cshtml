@@ -10,13 +10,12 @@
 
     @*Preloading business rules*@
     <script type="text/javascript">
-        //window.preloaded = { };
-        window.preloaded.numberTypes = @Html.Raw(Json.Encode(Peeplr.Main.Domain_BusinessRules.NumberTypes))
+        window.preloaded.numberTypes = @Html.Raw(Json.Encode(Peeplr.Main.Domain_BusinessRules.NumberTypes));
     </script>
 
     @*Stylin'*@
-    <link href="~/Assets/styles/bootstrap-theme.min.css" rel="stylesheet" />
-    <link href="~/Assets/styles/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link href="~/Assets/Styles/site.css" rel="stylesheet" />
 
     @*Application dependencies*@
@@ -31,12 +30,20 @@
 
 </head>
 <body>
-    <a href="/#/">
-        <h1><span class="glyphicon glyphicon-user"></span>Peeplr</h1>
-    </a>
-    <span>A quick 'n dirty contact list app.</span>
-    <div ng-app="peeplrApp">
-        <div ng-view></div>
-        </divng-app>
+    <div class="container peeplr-main-container">
+        <div class="header">
+            <h1><a href="/#/"><span class="glyphicon glyphicon-user"></span>Peeplr <small>A quick 'n dirty contact list app.</small></a></h1>
+        </div>
+        
+        <div ng-app="peeplrApp">
+            @*Fixing typeahead templates*@
+            @{Html.RenderPartial("Typeahead_templateFix");}
+            <div ng-view></div>
+        </div>
+        <hr />
+        <div class="footer">
+            Made by JureGS
+        </div>
+    </div>
 </body>
 </html>

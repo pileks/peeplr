@@ -1,41 +1,54 @@
 ﻿<div>
     <form name="contactCreateForm" novalidate>
         <fieldset class="form-group">
-            <span>Required fields</span>
+            <span class="lead">Basic information</span>
             <input ng-model="contact.firstName" class="form-control" placeholder="First name" title="First name" required />
             <input ng-model="contact.lastName" class="form-control" placeholder="Last name" title="Last name" required />
             <input ng-model="contact.email" class="form-control" type="email" placeholder="Email" title="Email" required />
         </fieldset>
 
         <fieldset class="form-group">
-            <span>Optional fields</span>
+            <span class="lead">Optional information</span>
             <input ng-model="contact.streetAddress" class="form-control" placeholder="Street address" title="Street address">
             <input ng-model="contact.city" class="form-control" placeholder="City" title="City">
             <input ng-model="contact.company" class="form-control" placeholder="Company" title="Company" />
         </fieldset>
 
         <fieldset class="form-group">
-            <span>Tags: </span>
-            <div ng-repeat="tag in contact.tags">
-                <input ng-model="tag.name" class="form-control" placeholder="Tag" title="Tag" required />
-                <button ng-click="removeTag(tag)" class="btn btn-danger">Remove</button>
+            <span class="lead">Numbers: </span>
+            <div ng-repeat="number in contact.numbers" class="row">
+                <div class="col-md-3">
+                    <select ng-model="number.type" class="form-control" ng-options="type for type in availableNumberTypes" title="Type">
+                        <option value="defaultNumberType"></option>
+                    </select>
+                </div>
+                <div class="col-md-7">
+                    <input ng-model="number.numberString" peeplr-validate-phone-number class="form-control" placeholder="Phone number" title="Phone number" required />
+                </div>
+                <div class="col-md-2">
+                    <a ng-click="removeNumber(number)" class="btn btn-danger">Remove</a>
+                </div>
             </div>
-            <button ng-click="addTag()" class="btn btn-primary">Add tag</button>
+            <a ng-click="addNumber()" class="btn btn-primary">Add number</a>
         </fieldset>
 
         <fieldset class="form-group">
-            <span>Numbers: </span><br />
-            <div ng-repeat="number in contact.numbers">
-                <select ng-model="number.type" class="form-control" ng-options="type for type in availableNumberTypes" title="Type">
-                    <option value="defaultNumberType"></option>
-                </select>
-                <input ng-model="number.numberString" peeplr-validate-phone-number class="form-control" placeholder="Phone number" title="Phone number" required />
-                <button ng-click="removeNumber(number)" class="btn btn-danger">Remove</button>
+            <span class="lead">Tags: </span>
+            <div class="row">
+                <div ng-repeat="tag in contact.tags">
+                    <div class="col-md-8">
+                        <input ng-model="tag.name" class="form-control" placeholder="Tag" title="Tag" typeahead="tag.name for tag in availableTags | filter:{name:$viewValue} | limitTo:5" required />
+                    </div>
+                    <div class="col-md-2">
+                        <a ng-click="removeTag(tag)" class="btn btn-danger">Remove</a>
+                    </div>
+                </div>
             </div>
-            <button ng-click="addNumber()" class="btn btn-primary">Add number</button>
+            <a ng-click="addTag()" class="btn btn-primary">Add tag</a>
         </fieldset>
+
         <fieldset class="form-group">
-            <button ng-disabled="!contactCreateForm.$valid" ng-click="createUpdateContact()" class="btn btn-success">Save</button>
+            <a ng-disabled="!contactCreateForm.$valid" ng-click="createUpdateContact()" class="btn btn-success">Save</a>
         </fieldset>
     </form>
 </div>

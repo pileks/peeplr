@@ -24,7 +24,9 @@ namespace Peeplr.Web.Controllers
         [HttpGet]
         public List<ent::Contact> GetAll()
         {
-            return contactQueries.GetAll().ToList();
+            return contactQueries.GetAll()
+                                 .OrderBy(c => c.FirstName + " " + c.LastName)
+                                 .ToList();
         }
 
         [HttpGet]

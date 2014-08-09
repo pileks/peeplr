@@ -5,9 +5,8 @@
 
 ----------
 
-Current state: **Application functional, mostly :)**
+Current state: **Application functional :)**
 
 **TODO:**
 
- - Check edge cases for API once validation implemented
- - Do some front-end finesse
+ - Run a few test cases

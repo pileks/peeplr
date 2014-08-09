@@ -1,12 +1,24 @@
-﻿<div>
-    <a href="/#/contact/create" class="btn btn-success">New contact</a>
-</div>
+﻿<div class="row">
+    <div class="input-group-lg col-lg-8">
+        <input type="text" ng-model="searchQuery" class="form-control search" placeholder="Search" title="Search" />
+    </div>
 
-<div>
-    <input ng-model="searchQuery" placeholder="Search" title="Search" />
+    <div class="col-lg-4 ">
+        <a href="/#/contact/create" class="btn btn-lg btn-success">New contact</a>
+    </div>
 </div>
-<ul ng-repeat="contact in contacts">
-    <li>
-        <a href="/#/contact/{{contact.id}}"><span>{{contact.firstName}}</span> <span>{{contact.lastName}}</span></a>
-    </li>
-</ul>
+<hr />
+<div class="list-group row">
+    <a ng-repeat="contact in contacts" href="/#/contact/{{contact.id}}" class="list-group-item">
+        <div class="row">
+            <div class="col-md-4">
+                <span>{{contact.firstName}}</span> <span>{{contact.lastName}}</span>
+            </div>
+            <div class="col-md-8">
+                <span ng-repeat="tag in contact.tags">
+                    {{tag.name}} <span ng-if="!$last">|</span>
+                </span>
+            </div>
+        </div>
+    </a>
+</div>

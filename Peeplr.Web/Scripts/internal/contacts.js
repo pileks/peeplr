@@ -39,26 +39,28 @@
 
     app.controller('ContactCreateUpdateCtrl', ['$http', '$location', '$routeParams', '$scope', function ($http, $location, $routeParams, $scope) {
 
-        $scope.isActionPending = false;
-
         $scope.contact = {};
         $scope.contact.tags = [];
         $scope.contact.numbers = [];
+
+        $scope.availableTags = [];
+
         $scope.isUpdate = false;
 
         if ($routeParams.id) {
-            $scope.isActionPending = true;
             $http.get('/api/contacts/' + $routeParams.id).
                 success(function (data) {
                     $scope.contact = data;
-                    console.log($scope.contact);
                     $scope.isUpdate = true;
-                    $scope.isActionPending = false;
                 }).
                 error(function () {
                     $location.path('/');
                 });
         }
+
+        $http.get('/api/tags').success(function (data) {
+            $scope.availableTags = data;
+        });
 
         $scope.availableNumberTypes = window.preloaded.numberTypes;
         $scope.defaultNumberType = $scope.availableNumberTypes[0];
@@ -80,7 +82,6 @@
         };
 
         $scope.createUpdateContact = function () {
-            $scope.isActionPending = true;
             if ($scope.isUpdate) {
                 $http.post('/api/contacts/update/' + $scope.contact.id, $scope.contact).success(function () {
                     $location.path('/');
