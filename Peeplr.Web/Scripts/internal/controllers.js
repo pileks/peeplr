@@ -1,7 +1,7 @@
 ﻿(function () {
     var app = angular.module('peeplrApp.ContactsControllers', ['peeplrApp.Repositories']);
 
-    app.controller('ContactsListCtrl', ['$http', '$q', '$scope', 'ContactRepository', function ($http, $q, $scope, contactRepo) {
+    app.controller('ContactsListCtrl', ['$q', '$scope', 'ContactRepository', function ($q, $scope, contactRepo) {
 
         var canceler = $q.defer();
 
@@ -27,7 +27,7 @@
         }, 250));
     }]);
 
-    app.controller('ContactDetailsCtrl', ['$http', '$scope', '$routeParams', 'ContactRepository', function ($http, $scope, $routeParams, contactRepo) {
+    app.controller('ContactDetailsCtrl', ['$scope', '$routeParams', 'ContactRepository', function ($scope, $routeParams, contactRepo) {
 
         var contactId = $routeParams.id;
 
@@ -37,7 +37,7 @@
             });
     }]);
 
-    app.controller('ContactCreateUpdateCtrl', ['$http', '$location', '$routeParams', '$scope', 'ContactRepository', 'TagRepository', function ($http, $location, $routeParams, $scope, contactRepo, tagRepo) {
+    app.controller('ContactCreateUpdateCtrl', ['$location', '$routeParams', '$scope', 'ContactRepository', 'TagRepository', function ($location, $routeParams, $scope, contactRepo, tagRepo) {
 
         $scope.contact = {};
         $scope.contact.tags = [];
@@ -96,7 +96,7 @@
         };
     }]);
 
-    app.controller('ContactDeleteCtrl', ['$http', '$scope', '$location', '$routeParams', 'ContactRepository', function ($http, $scope, $location, $routeParams, contactRepo) {
+    app.controller('ContactDeleteCtrl', ['$scope', '$location', '$routeParams', 'ContactRepository', function ($scope, $location, $routeParams, contactRepo) {
 
         var contactId = $routeParams.id;
 
