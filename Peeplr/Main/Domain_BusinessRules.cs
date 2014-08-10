@@ -1,9 +1,9 @@
 ﻿using ent = Peeplr.Main.Model;
 
-namespace Peeplr.Main
+namespace Peeplr.Main.BusinessRules
 {
-    public static class Domain_BusinessRules
+    public static class Number
     {
-        public static string[] NumberTypes = { "mobile", "home", "work" };
+        public static string[] AllowedNumberTypes = { "mobile", "home", "work" };
     }
 }

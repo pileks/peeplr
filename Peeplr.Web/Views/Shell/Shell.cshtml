@@ -8,7 +8,7 @@
     @*Preloading business rules*@
     <script type="text/javascript">
         window.preloaded = {};
-        window.preloaded.numberTypes = @Html.Raw(Json.Encode(Peeplr.Main.Domain_BusinessRules.NumberTypes));
+        window.preloaded.numberTypes = @Html.Raw(Json.Encode(Peeplr.Main.BusinessRules.Number.AllowedNumberTypes));
     </script>
 
     @*Stylin'*@

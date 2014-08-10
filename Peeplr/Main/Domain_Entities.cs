@@ -49,6 +49,8 @@ namespace Peeplr.Main.Model.Mappers
 namespace Peeplr.Main.Model.Validation
 {
     using ent = Peeplr.Main.Model;
+    using buru = Peeplr.Main.BusinessRules;
+
     using System.Linq;
     public static class Contact
     {
@@ -68,7 +70,8 @@ namespace Peeplr.Main.Model.Validation
         {
             return
                 !string.IsNullOrWhiteSpace(number.NumberString) &&
-                !string.IsNullOrWhiteSpace(number.Type);
+                !string.IsNullOrWhiteSpace(number.Type) &&
+                buru.Number.AllowedNumberTypes.Contains(number.Type);
         }
     }
     public static class Tag

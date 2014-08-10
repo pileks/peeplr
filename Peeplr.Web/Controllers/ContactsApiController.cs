@@ -38,7 +38,9 @@ namespace Peeplr.Web.Controllers
         [HttpGet]
         public List<ent::Contact> Get_forQuery(string q)
         {
-            return contactQueries.Get_forQuery(q).ToList();
+            return contactQueries.Get_forQuery(q)
+                                 .OrderBy(c => c.FirstName + " " + c.LastName)
+                                 .ToList();
         }
 
         [HttpGet]
