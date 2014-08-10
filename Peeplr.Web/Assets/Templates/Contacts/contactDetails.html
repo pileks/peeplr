@@ -1,7 +1,7 @@
 ﻿<div class="row">
     <span class="lead">{{contact.firstName}} {{contact.lastName}}</span>
 </div>
-<div class="row">
+<div class="row" ng-if="contact.streetAddress.length">
     <div class="col-md-2">
         <span>Address:</span>
     </div>
@@ -9,7 +9,7 @@
         <span class="pull-left">{{contact.streetAddress}}</span>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-if="contact.city.length">
     <div class="col-md-2">
         <span>City:</span>
     </div>
@@ -17,7 +17,7 @@
         <span class="pull-left">{{contact.city}}</span>
     </div>
 </div>
-<div class="row">
+<div class="row" ng-if="contact.company.length">
     <div class="col-md-2">
         <span>Company:</span>
     </div>
