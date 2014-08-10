@@ -49,7 +49,7 @@ namespace Peeplr.Main.Model.Commands
 
     public interface ITagCommands 
     {
-        void UpdateAndAddTags_forContact(int contactId, IEnumerable<ent::Tag> tags);
+        void UpdateAndAddTagsForContact(int contactId, IEnumerable<ent::Tag> tags);
 
         void Create(string name, int contactId);
         void AssignToContact(string name, int contactId);

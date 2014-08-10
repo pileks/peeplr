@@ -67,7 +67,8 @@ namespace Peeplr.Main.Model.Validation
                 !string.IsNullOrWhiteSpace(contact.FirstName) &&
                 !string.IsNullOrWhiteSpace(contact.LastName) &&
                 contact.Numbers.All(number => Number.IsValid(number)) &&
-                contact.Tags.All(tag => Tag.IsValid(tag));
+                contact.Tags.All(tag => Tag.IsValid(tag)) &&
+                contact.Emails.All(email => Email.IsValid(email));
         }
     }
     public static class Number
@@ -76,8 +77,14 @@ namespace Peeplr.Main.Model.Validation
         {
             return
                 !string.IsNullOrWhiteSpace(number.NumberString) &&
-                !string.IsNullOrWhiteSpace(number.Type) &&
                 buru.Number.AllowedNumberTypes.Contains(number.Type);
+        }
+    }
+    public static class Email
+    {
+        public static bool IsValid(ent::Email email)
+        {
+            return !string.IsNullOrWhiteSpace(email.EmailString);
         }
     }
     public static class Tag

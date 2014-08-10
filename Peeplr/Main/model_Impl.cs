@@ -124,7 +124,7 @@ namespace Peeplr.Main.Model.Commands
                     emailCommands.Create(e.EmailString, dbContact.Id);
                 }
 
-                tagCommands.UpdateAndAddTags_forContact(dbContact.Id, contact.Tags);
+                tagCommands.UpdateAndAddTagsForContact(dbContact.Id, contact.Tags);
             }
         }
         public void Update(int contactId, Contact contact)
@@ -148,7 +148,7 @@ namespace Peeplr.Main.Model.Commands
 
             emailCommands.UpdateEmailsForContact(contactId, contact.Emails);
 
-            tagCommands.UpdateAndAddTags_forContact(contactId, contact.Tags);
+            tagCommands.UpdateAndAddTagsForContact(contactId, contact.Tags);
         }
         public void Delete(int contactId)
         {
@@ -280,7 +280,7 @@ namespace Peeplr.Main.Model.Commands
             this.tagQueries = tagQueries;
         }
 
-        public void UpdateAndAddTags_forContact(int contactId, IEnumerable<Tag> tags)
+        public void UpdateAndAddTagsForContact(int contactId, IEnumerable<Tag> tags)
         {
             var dbTags = tagQueries.GetAll();
 
@@ -379,6 +379,8 @@ namespace Peeplr.Main.Model.Commands
 
         public void Update(ent::Email email)
         {
+            Contract.Assert(entValid::Email.IsValid(email));
+
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
                 var dbEmail = db.Emails.Single(x => x.Id == email.Id);
