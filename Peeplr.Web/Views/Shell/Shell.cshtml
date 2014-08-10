@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width" />
     <title>Peeplr</title>
 
-    @*Preloading dummy stuff*@
-    <script src="~/Scripts/internal/dummyContacts.js"></script>
-
     @*Preloading business rules*@
     <script type="text/javascript">
+        window.preloaded = {};
         window.preloaded.numberTypes = @Html.Raw(Json.Encode(Peeplr.Main.Domain_BusinessRules.NumberTypes));
     </script>
 
@@ -25,8 +23,9 @@
     <script src="~/Scripts/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
 
     @*Application logic*@
-    <script src="~/Scripts/internal/contacts.js"></script>
     <script src="~/Scripts/internal/app.js"></script>
+    <script src="~/Scripts/internal/controllers.js"></script>
+    <script src="~/Scripts/internal/repositories.js"></script>
 
 </head>
 <body>

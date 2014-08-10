@@ -138,13 +138,33 @@ namespace Peeplr.Main.Model.Commands
 
                 if (contact != null)
                 {
-                    db.Numbers.RemoveRange(contact.Numbers);
-                    contact.Tags.Clear();
-                    db.SaveChanges();
+                    ClearContactNumbers(contact.Id);
+                    ClearContactTags(contact.Id);
 
                     db.Contacts.Remove(contact);
                     db.SaveChanges();
                 }
+            }
+        }
+
+        private void ClearContactTags(int contactId)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var contact = db.Contacts.Single(x => x.Id == contactId);
+
+                contact.Tags.Clear();
+                db.SaveChanges();
+            }
+        }
+        private void ClearContactNumbers(int contactId)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var contact = db.Contacts.Single(x => x.Id == contactId);
+
+                db.Numbers.RemoveRange(contact.Numbers);
+                db.SaveChanges();
             }
         }
     }
