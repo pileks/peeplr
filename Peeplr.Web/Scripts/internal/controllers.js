@@ -1,43 +1,43 @@
 ﻿(function () {
-    var app = angular.module('contactsControllers', []);
+    var app = angular.module('peeplrApp.ContactsControllers', ['peeplrApp.Repositories']);
 
-    app.controller('ContactsListCtrl', ['$http', '$q', '$scope', function ($http, $q, $scope) {
+    app.controller('ContactsListCtrl', ['$http', '$q', '$scope', 'ContactRepository', function ($http, $q, $scope, contactRepo) {
 
         var canceler = $q.defer();
 
-        $http.get('/api/contacts').
+        contactRepo.getAll().
             success(function (data) {
                 $scope.contacts = data;
             });
 
         $scope.searchQuery = '';
         $scope.$watch('searchQuery', _.debounce(function (searchQuery) {
-            canceler.reject('Cancelled');
+            canceler.reject('A new search query was initiated.');
             if (searchQuery.length) {
-                $http.get('/api/contacts/search', { params: { q: searchQuery }, timeout: canceler.promise }).
+                contactRepo.get_forSearchQuery(searchQuery, canceler.promise).
                     success(function (data) {
                         $scope.contacts = data;
                     });
             } else {
-                $http.get('/api/contacts', { timeout: canceler.promise }).
+                contactRepo.getAll(canceler.promise).
                         success(function (data) {
                             $scope.contacts = data;
                         });
             }
-        }, 500));
+        }, 250));
     }]);
 
-    app.controller('ContactDetailsCtrl', ['$http', '$scope', '$routeParams', function ($http, $scope, $routeParams) {
+    app.controller('ContactDetailsCtrl', ['$http', '$scope', '$routeParams', 'ContactRepository', function ($http, $scope, $routeParams, contactRepo) {
 
         var contactId = $routeParams.id;
 
-        $http.get('/api/contacts/' + contactId.toString()).
+        contactRepo.getSingle(contactId).
             success(function (data) {
                 $scope.contact = data;
             });
     }]);
 
-    app.controller('ContactCreateUpdateCtrl', ['$http', '$location', '$routeParams', '$scope', function ($http, $location, $routeParams, $scope) {
+    app.controller('ContactCreateUpdateCtrl', ['$http', '$location', '$routeParams', '$scope', 'ContactRepository', 'TagRepository', function ($http, $location, $routeParams, $scope, contactRepo, tagRepo) {
 
         $scope.contact = {};
         $scope.contact.tags = [];
@@ -48,7 +48,7 @@
         $scope.isUpdate = false;
 
         if ($routeParams.id) {
-            $http.get('/api/contacts/' + $routeParams.id).
+            contactRepo.getSingle($routeParams.id).
                 success(function (data) {
                     $scope.contact = data;
                     $scope.isUpdate = true;
@@ -58,9 +58,10 @@
                 });
         }
 
-        $http.get('/api/tags').success(function (data) {
-            $scope.availableTags = data;
-        });
+        tagRepo.getAll().
+            success(function (data) {
+                $scope.availableTags = data;
+            });
 
         $scope.availableNumberTypes = window.preloaded.numberTypes;
         $scope.defaultNumberType = $scope.availableNumberTypes[0];
@@ -82,22 +83,24 @@
 
         $scope.createUpdateContact = function () {
             if ($scope.isUpdate) {
-                $http.post('/api/contacts/update/' + $scope.contact.id, $scope.contact).success(function () {
-                    $location.path('/');
-                });
+                contactRepo.update($scope.contact.id, $scope.contact).
+                    success(function () {
+                        $location.path('/');
+                    });
             } else {
-                $http.post('/api/contacts/create', $scope.contact).success(function () {
-                    $location.path('/');
-                });
+                contactRepo.create($scope.contact).
+                    success(function () {
+                        $location.path('/');
+                    });
             }
         };
     }]);
 
-    app.controller('ContactDeleteCtrl', ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+    app.controller('ContactDeleteCtrl', ['$http', '$scope', '$location', '$routeParams', 'ContactRepository', function ($http, $scope, $location, $routeParams, contactRepo) {
 
         var contactId = $routeParams.id;
 
-        $http.get('/api/contacts/' + contactId.toString()).
+        contactRepo.getSingle(contactId).
             success(function (data) {
                 $scope.contact = data;
             }).
@@ -106,15 +109,9 @@
             });
 
         $scope.deleteContact = function () {
-
-            $scope.isActionPending = true;
-
-            $http.get('/api/contacts/delete/' + contactId.toString()).
+            contactRepo.remove(contactId).
                 success(function () {
                     $location.path('/');
-                }).
-                error(function () {
-                    $scope.isActionPending = false;
                 });
         };
 

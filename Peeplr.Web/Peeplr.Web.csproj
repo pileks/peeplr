@@ -221,7 +221,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\internal\app.js" />
     <Content Include="Scripts\internal\controllers.js" />
-    <Content Include="Scripts\internal\dummyContacts.js" />
+    <Content Include="Scripts\internal\repositories.js" />
     <Content Include="Scripts\lib\angular.min.js" />
     <Content Include="Scripts\lib\lodash.min.js" />
     <Content Include="Scripts\lib\ui-bootstrap-tpls-0.11.0.min.js" />
