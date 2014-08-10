@@ -22,6 +22,11 @@ namespace Peeplr.Main.Model.Queries
     {
         IEnumerable<ent::Tag> GetAll();
     }
+
+    public interface IEmailQueries
+    {
+        IEnumerable<ent::Email> Get_forContact(int contactId);
+    }
 }
 
 namespace Peeplr.Main.Model.Commands
@@ -48,5 +53,14 @@ namespace Peeplr.Main.Model.Commands
 
         void Create(string name, int contactId);
         void AssignToContact(string name, int contactId);
+    }
+
+    public interface IEmailCommands
+    {
+        void UpdateEmailsForContact(int contactId, IEnumerable<ent::Email> emails);
+
+        void Create(string emailString, int contactId);
+        void Update(ent::Email email);
+        void Delete(int id);
     }
 }

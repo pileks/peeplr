@@ -28,5 +28,6 @@ namespace Peeplr.Data.Internal
         public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Number> Numbers { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Email> Emails { get; set; }
     }
 }

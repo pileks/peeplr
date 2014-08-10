@@ -4,7 +4,20 @@
             <span class="lead">Basic information</span>
             <input ng-model="contact.firstName" class="form-control" placeholder="First name" title="First name" required />
             <input ng-model="contact.lastName" class="form-control" placeholder="Last name" title="Last name" required />
-            <input ng-model="contact.email" class="form-control" type="email" placeholder="Email" title="Email" required />
+            <!--<input ng-model="contact.email" class="form-control" type="email" placeholder="Email" title="Email" required />-->
+        </fieldset>
+
+        <fieldset class="form-group">
+            <span class="lead">Emails: </span>
+            <div ng-repeat="email in contact.emails" class="row">
+                <div class="col-md-10">
+                    <input ng-model="email.emailString" type="email" class="form-control" placeholder="Email" title="Email" required />
+                </div>
+                <div class="col-md-2">
+                    <a ng-click="removeEmail(email)" class="btn btn-danger">Remove</a>
+                </div>
+            </div>
+            <a ng-click="addEmail()" class="btn btn-primary">Add email</a>
         </fieldset>
 
         <fieldset class="form-group">

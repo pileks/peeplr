@@ -3,14 +3,6 @@
 </div>
 <div class="row">
     <div class="col-md-2">
-        <span>Email:</span>
-    </div>
-    <div class="col-md-10">
-        <span class="pull-left">{{contact.email}}</span>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-2">
         <span>Address:</span>
     </div>
     <div class="col-md-10">
@@ -31,6 +23,18 @@
     </div>
     <div class="col-md-10">
         <span class="pull-left">{{contact.company}}</span>
+    </div>
+</div>
+<hr ng-if="contact.emails.length" />
+<div class="row" ng-if="contact.emails.length">
+    <div class="col-md-2">
+        <strong>Emails: </strong>
+    </div>
+    <div ng-repeat="email in contact.emails">
+        <div class="col-md-2" ng-if="!$first"></div>
+        <div class="col-md-10">
+            <span> {{email.emailString}} </span>
+        </div>
     </div>
 </div>
 <hr ng-if="contact.numbers.length" />

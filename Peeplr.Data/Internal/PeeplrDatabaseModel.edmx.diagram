@@ -10,6 +10,8 @@
         <EntityTypeShape EntityType="PeeplrDatabaseModel.Tag" Width="1.5" PointX="8.875" PointY="4.375" />
         <AssociationConnector Association="PeeplrDatabaseModel.ContactNumbers" />
         <AssociationConnector Association="PeeplrDatabaseModel.ContactTag" />
+        <EntityTypeShape EntityType="PeeplrDatabaseModel.Email" Width="1.5" PointX="11.75" PointY="2.125" />
+        <AssociationConnector Association="PeeplrDatabaseModel.ContactEmail" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

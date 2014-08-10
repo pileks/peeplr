@@ -9,6 +9,7 @@
     <EntitySet Name="Contacts" EntityType="PeeplrDatabaseModel.Store.Contacts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Numbers" EntityType="PeeplrDatabaseModel.Store.Numbers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tags" EntityType="PeeplrDatabaseModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Emails" EntityType="PeeplrDatabaseModel.Store.Emails" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ContactTag" EntityType="PeeplrDatabaseModel.Store.ContactTag" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ContactNumbers" Association="PeeplrDatabaseModel.Store.ContactNumbers">
       <End Role="Contact" EntitySet="Contacts" />
@@ -22,6 +23,10 @@
       <End Role="Tag" EntitySet="Tags" />
       <End Role="ContactTag" EntitySet="ContactTag" />
     </AssociationSet>
+    <AssociationSet Name="ContactEmail" Association="PeeplrDatabaseModel.Store.ContactEmail">
+      <End Role="Contact" EntitySet="Contacts" />
+      <End Role="Email" EntitySet="Emails" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Contacts">
     <Key>
@@ -30,7 +35,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
     <Property Name="StreetAddress" Type="nvarchar(max)" Nullable="true" />
     <Property Name="City" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Company" Type="nvarchar(max)" Nullable="true" />
@@ -51,6 +55,14 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="Emails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContactId" Type="int" Nullable="false" />
+    <Property Name="EmailString" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
   <EntityType Name="ContactTag">
     <Key>
       <PropertyRef Name="Contacts_Id" />
@@ -67,6 +79,18 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Number">
+        <PropertyRef Name="ContactId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ContactEmail">
+    <End Role="Contact" Type="PeeplrDatabaseModel.Store.Contacts" Multiplicity="1" />
+    <End Role="Email" Type="PeeplrDatabaseModel.Store.Emails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Email">
         <PropertyRef Name="ContactId" />
       </Dependent>
     </ReferentialConstraint>
@@ -111,6 +135,11 @@
             <End Role="Contact" EntitySet="Contacts" />
             <End Role="Tag" EntitySet="Tags" />
           </AssociationSet>
+          <EntitySet Name="Emails" EntityType="PeeplrDatabaseModel.Email" />
+          <AssociationSet Name="ContactEmail" Association="PeeplrDatabaseModel.ContactEmail">
+            <End Role="Contact" EntitySet="Contacts" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contact">
           <Key>
@@ -119,12 +148,12 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FirstName" Type="String" Nullable="false" />
           <Property Name="LastName" Type="String" Nullable="false" />
-          <Property Name="Email" Type="String" Nullable="false" />
           <Property Name="StreetAddress" Type="String" Nullable="true" />
           <Property Name="City" Type="String" Nullable="true" />
           <Property Name="Company" Type="String" Nullable="true" />
           <NavigationProperty Name="Numbers" Relationship="PeeplrDatabaseModel.ContactNumbers" FromRole="Contact" ToRole="Number" />
           <NavigationProperty Name="Tags" Relationship="PeeplrDatabaseModel.ContactTag" FromRole="Contact" ToRole="Tag" />
+          <NavigationProperty Name="Emails" Relationship="PeeplrDatabaseModel.ContactEmail" FromRole="Contact" ToRole="Email" />
         </EntityType>
         <EntityType Name="Number">
           <Key>
@@ -160,6 +189,27 @@
           <End Type="PeeplrDatabaseModel.Contact" Role="Contact" Multiplicity="*" />
           <End Type="PeeplrDatabaseModel.Tag" Role="Tag" Multiplicity="*" />
         </Association>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Contact" Relationship="PeeplrDatabaseModel.ContactEmail" FromRole="Email" ToRole="Contact" />
+          <Property Name="ContactId" Type="Int32" Nullable="false" />
+          <Property Name="EmailString" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="ContactEmail">
+          <End Type="PeeplrDatabaseModel.Contact" Role="Contact" Multiplicity="1" />
+          <End Type="PeeplrDatabaseModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contact">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -172,7 +222,6 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="LastName" ColumnName="LastName" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
           <ScalarProperty Name="City" ColumnName="City" />
           <ScalarProperty Name="Company" ColumnName="Company" />
@@ -194,6 +243,15 @@
         <MappingFragment StoreEntitySet="Tags">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Emails">
+      <EntityTypeMapping TypeName="IsTypeOf(PeeplrDatabaseModel.Email)">
+        <MappingFragment StoreEntitySet="Emails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ContactId" ColumnName="ContactId" />
+          <ScalarProperty Name="EmailString" ColumnName="EmailString" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

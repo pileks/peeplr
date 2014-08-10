@@ -42,6 +42,7 @@
         $scope.contact = {};
         $scope.contact.tags = [];
         $scope.contact.numbers = [];
+        $scope.contact.emails = [];
 
         $scope.availableTags = [];
 
@@ -79,6 +80,13 @@
         $scope.removeTag = function (tag) {
             var index = $scope.contact.tags.indexOf(tag);
             $scope.contact.tags.splice(index, 1);
+        };
+        $scope.addEmail = function () {
+            $scope.contact.emails.push({ emailString: '' });
+        };
+        $scope.removeEmail = function (email) {
+            var index = $scope.contact.emails.indexOf(email);
+            $scope.contact.emails.splice(index, 1);
         };
 
         $scope.createUpdateContact = function () {

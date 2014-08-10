@@ -59,6 +59,9 @@
     <Compile Include="Internal\Contact.cs">
       <DependentUpon>PeeplrDatabaseModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Internal\Email.cs">
+      <DependentUpon>PeeplrDatabaseModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Internal\Number.cs">
       <DependentUpon>PeeplrDatabaseModel.tt</DependentUpon>
     </Compile>

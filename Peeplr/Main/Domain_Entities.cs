@@ -7,7 +7,7 @@ namespace Peeplr.Main.Model
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
+        public IEnumerable<Email> Emails { get; set; }
         public string StreetAddress { get; set; }
         public string City { get; set; }
         public string Company { get; set; }
@@ -20,6 +20,12 @@ namespace Peeplr.Main.Model
         public int Id { get; set; }
         public string Type { get; set; }
         public string NumberString { get; set; }
+    }
+
+    public class Email
+    {
+        public int Id { get; set; }
+        public string EmailString { get; set; }
     }
 
     public class Tag
@@ -42,6 +48,7 @@ namespace Peeplr.Main.Model.Mappers
             am::Mapper.CreateMap<data::Tag, ent::Tag>();
             am::Mapper.CreateMap<data::Number, ent::Number>();
             am::Mapper.CreateMap<data::Contact, ent::Contact>();
+            am::Mapper.CreateMap<data::Email, ent::Email>();
         }
     }
 }
@@ -59,7 +66,6 @@ namespace Peeplr.Main.Model.Validation
             return
                 !string.IsNullOrWhiteSpace(contact.FirstName) &&
                 !string.IsNullOrWhiteSpace(contact.LastName) &&
-                !string.IsNullOrWhiteSpace(contact.Email) &&
                 contact.Numbers.All(number => Number.IsValid(number)) &&
                 contact.Tags.All(tag => Tag.IsValid(tag));
         }

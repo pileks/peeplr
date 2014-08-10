@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/08/2014 01:30:20
+-- Date Created: 08/10/2014 19:58:57
 -- Generated from EDMX file: D:\Dev\peeplr\Peeplr.Data\Internal\PeeplrDatabaseModel.edmx
 -- --------------------------------------------------
 
@@ -53,7 +53,6 @@ CREATE TABLE [dbo].[Contacts] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [FirstName] nvarchar(max)  NOT NULL,
     [LastName] nvarchar(max)  NOT NULL,
-    [Email] nvarchar(max)  NOT NULL,
     [StreetAddress] nvarchar(max)  NULL,
     [City] nvarchar(max)  NULL,
     [Company] nvarchar(max)  NULL
@@ -73,6 +72,14 @@ GO
 CREATE TABLE [dbo].[Tags] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Emails'
+CREATE TABLE [dbo].[Emails] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ContactId] int  NOT NULL,
+    [EmailString] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -102,6 +109,12 @@ GO
 -- Creating primary key on [Id] in table 'Tags'
 ALTER TABLE [dbo].[Tags]
 ADD CONSTRAINT [PK_Tags]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Emails'
+ALTER TABLE [dbo].[Emails]
+ADD CONSTRAINT [PK_Emails]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -152,6 +165,21 @@ GO
 CREATE INDEX [IX_FK_ContactTag_Tag]
 ON [dbo].[ContactTag]
     ([Tags_Id]);
+GO
+
+-- Creating foreign key on [ContactId] in table 'Emails'
+ALTER TABLE [dbo].[Emails]
+ADD CONSTRAINT [FK_ContactEmail]
+    FOREIGN KEY ([ContactId])
+    REFERENCES [dbo].[Contacts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ContactEmail'
+CREATE INDEX [IX_FK_ContactEmail]
+ON [dbo].[Emails]
+    ([ContactId]);
 GO
 
 -- --------------------------------------------------

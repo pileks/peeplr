@@ -18,17 +18,18 @@ namespace Peeplr.Data.Internal
         {
             this.Numbers = new HashSet<Number>();
             this.Tags = new HashSet<Tag>();
+            this.Emails = new HashSet<Email>();
         }
     
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Email { get; set; }
         public string StreetAddress { get; set; }
         public string City { get; set; }
         public string Company { get; set; }
     
         public virtual ICollection<Number> Numbers { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Email> Emails { get; set; }
     }
 }

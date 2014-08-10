@@ -62,6 +62,19 @@ namespace Peeplr.Main.Model.Queries
             }
         }
     }
+
+    public class EmailQueries : IEmailQueries
+    {
+        public IEnumerable<Email> Get_forContact(int contactId)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var contact = db.Contacts.Single(x => x.Id == contactId);
+
+                return am::Mapper.Map<ent::Email[]>(contact.Emails);
+            }
+        }
+    }
 }
 
 namespace Peeplr.Main.Model.Commands
@@ -75,10 +88,12 @@ namespace Peeplr.Main.Model.Commands
     {
         private readonly INumberCommands numberCommands;
         private readonly ITagCommands tagCommands;
-        public ContactCommands(INumberCommands numberCommands, ITagCommands tagCommands)
+        private readonly IEmailCommands emailCommands;
+        public ContactCommands(INumberCommands numberCommands, ITagCommands tagCommands, IEmailCommands emailCommands)
         {
             this.numberCommands = numberCommands;
             this.tagCommands = tagCommands;
+            this.emailCommands = emailCommands;
         }
 
         public void Create(ent::Contact contact)
@@ -91,7 +106,6 @@ namespace Peeplr.Main.Model.Commands
                 {
                     FirstName = contact.FirstName,
                     LastName = contact.LastName,
-                    Email = contact.Email,
                     StreetAddress = contact.StreetAddress,
                     City = contact.City,
                     Company = contact.Company
@@ -103,6 +117,11 @@ namespace Peeplr.Main.Model.Commands
                 foreach (var n in contact.Numbers)
                 {
                     numberCommands.Create(n.Type, n.NumberString, dbContact.Id);
+                }
+
+                foreach (var e in contact.Emails)
+                {
+                    emailCommands.Create(e.EmailString, dbContact.Id);
                 }
 
                 tagCommands.UpdateAndAddTags_forContact(dbContact.Id, contact.Tags);
@@ -118,7 +137,6 @@ namespace Peeplr.Main.Model.Commands
 
                 dbContact.FirstName = contact.FirstName;
                 dbContact.LastName = contact.LastName;
-                dbContact.Email = contact.Email;
                 dbContact.StreetAddress = contact.StreetAddress;
                 dbContact.City = contact.City;
                 dbContact.Company = contact.Company;
@@ -127,6 +145,8 @@ namespace Peeplr.Main.Model.Commands
             }
 
             numberCommands.UpdateNumbersForContact(contactId, contact.Numbers);
+
+            emailCommands.UpdateEmailsForContact(contactId, contact.Emails);
 
             tagCommands.UpdateAndAddTags_forContact(contactId, contact.Tags);
         }
@@ -139,6 +159,7 @@ namespace Peeplr.Main.Model.Commands
                 if (contact != null)
                 {
                     ClearContactNumbers(contact.Id);
+                    ClearContactEmails(contact.Id);
                     ClearContactTags(contact.Id);
 
                     db.Contacts.Remove(contact);
@@ -164,6 +185,16 @@ namespace Peeplr.Main.Model.Commands
                 var contact = db.Contacts.Single(x => x.Id == contactId);
 
                 db.Numbers.RemoveRange(contact.Numbers);
+                db.SaveChanges();
+            }
+        }
+        private void ClearContactEmails(int contactId)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var contact = db.Contacts.Single(x => x.Id == contactId);
+
+                db.Emails.RemoveRange(contact.Emails);
                 db.SaveChanges();
             }
         }
@@ -298,6 +329,72 @@ namespace Peeplr.Main.Model.Commands
                 var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
 
                 contact.Tags.Add(tag);
+                db.SaveChanges();
+            }
+        }
+    }
+
+    public class EmailCommands : IEmailCommands
+    {
+        private readonly IEmailQueries emailQueries;
+        public EmailCommands(IEmailQueries emailQueries)
+        {
+            this.emailQueries = emailQueries;
+        }
+
+        public void UpdateEmailsForContact(int contactId, IEnumerable<ent::Email> emails)
+        {
+            var dbEmails = emailQueries.Get_forContact(contactId);
+
+            var emailsToCreate = emails.Where(e => !dbEmails.Any(x => x.Id == e.Id));
+            var emailsToUpdate = emails.Where(e => dbEmails.Any(x => x.Id == e.Id));
+            var emailsToDelete = dbEmails.Where(e => !emails.Any(x => x.Id == e.Id));
+
+            foreach (var email in emailsToCreate)
+            {
+                Create(email.EmailString, contactId);
+            }
+
+            foreach (var e in emailsToUpdate)
+            {
+                Update(e);
+            }
+
+            foreach (var e in emailsToDelete)
+            {
+                Delete(e.Id);
+            }
+        }
+
+        public void Create(string emailString, int contactId)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var dbEmail = new data::Email() { EmailString = emailString, ContactId = contactId };
+
+                db.Emails.Add(dbEmail);
+                db.SaveChanges();
+            }
+        }
+
+        public void Update(ent::Email email)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var dbEmail = db.Emails.Single(x => x.Id == email.Id);
+
+                dbEmail.EmailString = email.EmailString;
+                db.SaveChanges();
+            }
+        }
+
+        public void Delete(int id)
+        {
+            using (var db = new data::PeeplrDatabaseModelContainer())
+            {
+                var dbEmail = db.Emails.Single(x => x.Id == id);
+
+                db.Emails.Remove(dbEmail);
                 db.SaveChanges();
             }
         }
