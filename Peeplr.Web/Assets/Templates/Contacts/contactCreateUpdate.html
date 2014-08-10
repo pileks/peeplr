@@ -4,7 +4,13 @@
             <span class="lead">Basic information</span>
             <input ng-model="contact.firstName" class="form-control" placeholder="First name" title="First name" required />
             <input ng-model="contact.lastName" class="form-control" placeholder="Last name" title="Last name" required />
-            <!--<input ng-model="contact.email" class="form-control" type="email" placeholder="Email" title="Email" required />-->
+        </fieldset>
+
+        <fieldset class="form-group">
+            <span class="lead">Optional information</span>
+            <input ng-model="contact.streetAddress" class="form-control" placeholder="Street address" title="Street address">
+            <input ng-model="contact.city" class="form-control" placeholder="City" title="City">
+            <input ng-model="contact.company" class="form-control" placeholder="Company" title="Company" />
         </fieldset>
 
         <fieldset class="form-group">
@@ -18,13 +24,6 @@
                 </div>
             </div>
             <a ng-click="addEmail()" class="btn btn-primary">Add email</a>
-        </fieldset>
-
-        <fieldset class="form-group">
-            <span class="lead">Optional information</span>
-            <input ng-model="contact.streetAddress" class="form-control" placeholder="Street address" title="Street address">
-            <input ng-model="contact.city" class="form-control" placeholder="City" title="City">
-            <input ng-model="contact.company" class="form-control" placeholder="Company" title="Company" />
         </fieldset>
 
         <fieldset class="form-group">
