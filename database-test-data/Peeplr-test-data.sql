@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 08/08/2014 01:30:20
+-- Date Created: 08/10/2014 19:58:57
 -- Generated from EDMX file: D:\Dev\peeplr\Peeplr.Data\Internal\PeeplrDatabaseModel.edmx
 -- --------------------------------------------------
 
@@ -53,7 +53,6 @@ CREATE TABLE [dbo].[Contacts] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [FirstName] nvarchar(max)  NOT NULL,
     [LastName] nvarchar(max)  NOT NULL,
-    [Email] nvarchar(max)  NOT NULL,
     [StreetAddress] nvarchar(max)  NULL,
     [City] nvarchar(max)  NULL,
     [Company] nvarchar(max)  NULL
@@ -76,6 +75,14 @@ CREATE TABLE [dbo].[Tags] (
 );
 GO
 
+-- Creating table 'Emails'
+CREATE TABLE [dbo].[Emails] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ContactId] int  NOT NULL,
+    [EmailString] nvarchar(max)  NOT NULL
+);
+GO
+
 -- Creating table 'ContactTag'
 CREATE TABLE [dbo].[ContactTag] (
     [Contacts_Id] int  NOT NULL,
@@ -90,52 +97,75 @@ GO
 SET IDENTITY_INSERT [dbo].[Contacts] ON 
 
 GO
-INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [Email], [StreetAddress], [City], [Company]) VALUES (1, N'Jure', N'Graniæ Skender', N'jure@dump.hr', N'Podluka 13a', N'Baška Voda', N'DUMP')
+INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [StreetAddress], [City], [Company]) VALUES (1, N'Jure', N'Graniæ Skender', N'Podluka 13a', N'Baška Voda', N'Assemblio')
 GO
-INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [Email], [StreetAddress], [City], [Company]) VALUES (2, N'Antonio', N'Pavlinoviæ', N'antonio@dump.hr', N'Neka ulica 10', N'Kaštel Gomilica', N'HR Cloud')
+INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [StreetAddress], [City], [Company]) VALUES (2, N'Antonio', N'Pavlinoviæ', N'Neka u Kaštelima 12', N'Kaštel Gomilica', N'HR Cloud')
 GO
-INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [Email], [StreetAddress], [City], [Company]) VALUES (3, N'Marko', N'Marinoviæ', N'markom@dump.hr', N'Kalajžiæeva 14', N'Split', N'HR Cloud')
+INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [StreetAddress], [City], [Company]) VALUES (3, N'Marko', N'Marinoviæ', N'Neka koja poèinje s K ili V 14', N'Split', N'AuThink')
 GO
-INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [Email], [StreetAddress], [City], [Company]) VALUES (4, N'Ivan', N'Maèek', N'ivan@dump.hr', N'Ne da mi se pisati adrese 13', N'Split', N'HR Cloud')
+INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [StreetAddress], [City], [Company]) VALUES (4, N'Ivan', N'Maèek', N'Tamo iznad Geniusa 22', N'Split', N'HR Cloud')
 GO
-INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [Email], [StreetAddress], [City], [Company]) VALUES (5, N'Mirko', N'Mirkiæ', N'mirko.mirkic@gmail.com', N'Mirkiæeva 1', N'Mirkiæi', N'Mirko d.o.o.')
+INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [StreetAddress], [City], [Company]) VALUES (5, N'Mirko', N'Mirkoviæ', N'Mirkoviæeva 1', N'Mirkoviæi', N'Mirko d.o.o.')
 GO
-INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [Email], [StreetAddress], [City], [Company]) VALUES (6, N'Mirkov', N'Brat', N'mirkov.brat@gmail.com', N'Where', N'do we', N'go now?')
+INSERT [dbo].[Contacts] ([Id], [FirstName], [LastName], [StreetAddress], [City], [Company]) VALUES (6, N'Mirkovo', N'Kumèe', NULL, NULL, NULL)
 GO
 SET IDENTITY_INSERT [dbo].[Contacts] OFF
 GO
 INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (1, 1)
 GO
-INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (2, 1)
-GO
-INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (3, 1)
-GO
 INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (4, 1)
 GO
 INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (1, 2)
+GO
+INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (2, 2)
 GO
 INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (1, 3)
 GO
 INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (2, 3)
 GO
-INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (2, 4)
+INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (1, 4)
 GO
-INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (5, 5)
+INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (2, 5)
 GO
 INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (5, 6)
+GO
+INSERT [dbo].[ContactTag] ([Contacts_Id], [Tags_Id]) VALUES (6, 7)
+GO
+SET IDENTITY_INSERT [dbo].[Emails] ON 
+
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (1, 1, N'jure@dump.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (2, 1, N'jure@assemblio.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (3, 1, N'jgranics@fesb.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (4, 2, N'antonio@dump.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (5, 2, N'antonio@assemblio.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (6, 3, N'markom@dump.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (7, 4, N'ivan@dump.hr')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (8, 5, N'mirko.mirkovic@gmail.com')
+GO
+INSERT [dbo].[Emails] ([Id], [ContactId], [EmailString]) VALUES (9, 6, N'mirkovo.kumce@gmail.com')
+GO
+SET IDENTITY_INSERT [dbo].[Emails] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Numbers] ON 
 
 GO
-INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (1, N'mobile', N'+385 91 161 4291', 1)
+INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (1, N'mobile', N'+385 91 1614 291', 1)
 GO
 INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (2, N'home', N'021 620 438', 1)
 GO
-INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (3, N'work', N'021 123 456', 1)
+INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (3, N'mobile', N'+385 95 9136 380', 2)
 GO
-INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (4, N'mobile', N'+385 95 9136 380', 2)
+INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (4, N'mobile', N'+385915149878', 3)
 GO
-INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (6, N'mobile', N'021 647 566', 5)
+INSERT [dbo].[Numbers] ([Id], [Type], [NumberString], [ContactId]) VALUES (5, N'mobile', N'091 2345 678', 5)
 GO
 SET IDENTITY_INSERT [dbo].[Numbers] OFF
 GO
@@ -144,15 +174,17 @@ SET IDENTITY_INSERT [dbo].[Tags] ON
 GO
 INSERT [dbo].[Tags] ([Id], [Name]) VALUES (1, N'developer')
 GO
-INSERT [dbo].[Tags] ([Id], [Name]) VALUES (2, N'business')
+INSERT [dbo].[Tags] ([Id], [Name]) VALUES (2, N'sports')
 GO
-INSERT [dbo].[Tags] ([Id], [Name]) VALUES (3, N'sports')
+INSERT [dbo].[Tags] ([Id], [Name]) VALUES (3, N'business')
 GO
-INSERT [dbo].[Tags] ([Id], [Name]) VALUES (4, N'designer')
+INSERT [dbo].[Tags] ([Id], [Name]) VALUES (4, N'gaming')
 GO
-INSERT [dbo].[Tags] ([Id], [Name]) VALUES (5, N'balkan')
+INSERT [dbo].[Tags] ([Id], [Name]) VALUES (5, N'designer')
 GO
-INSERT [dbo].[Tags] ([Id], [Name]) VALUES (6, N'biznismen')
+INSERT [dbo].[Tags] ([Id], [Name]) VALUES (6, N'balkanski biznismen')
+GO
+INSERT [dbo].[Tags] ([Id], [Name]) VALUES (7, N'fizikala')
 GO
 SET IDENTITY_INSERT [dbo].[Tags] OFF
 GO
@@ -176,6 +208,12 @@ GO
 -- Creating primary key on [Id] in table 'Tags'
 ALTER TABLE [dbo].[Tags]
 ADD CONSTRAINT [PK_Tags]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Emails'
+ALTER TABLE [dbo].[Emails]
+ADD CONSTRAINT [PK_Emails]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -226,6 +264,21 @@ GO
 CREATE INDEX [IX_FK_ContactTag_Tag]
 ON [dbo].[ContactTag]
     ([Tags_Id]);
+GO
+
+-- Creating foreign key on [ContactId] in table 'Emails'
+ALTER TABLE [dbo].[Emails]
+ADD CONSTRAINT [FK_ContactEmail]
+    FOREIGN KEY ([ContactId])
+    REFERENCES [dbo].[Contacts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ContactEmail'
+CREATE INDEX [IX_FK_ContactEmail]
+ON [dbo].[Emails]
+    ([ContactId]);
 GO
 
 -- --------------------------------------------------
