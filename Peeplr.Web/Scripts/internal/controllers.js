@@ -67,7 +67,6 @@
 
         $scope.addNumber = function () {
             $scope.contact.numbers.push({ type: $scope.defaultNumberType, numberString: '' });
-            console.log($scope.contact)
         };
         $scope.removeNumber = function (number) {
             var index = $scope.contact.numbers.indexOf(number);

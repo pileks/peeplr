@@ -220,7 +220,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\internal\app.js" />
-    <Content Include="Scripts\internal\contacts.js" />
+    <Content Include="Scripts\internal\controllers.js" />
     <Content Include="Scripts\internal\dummyContacts.js" />
     <Content Include="Scripts\lib\angular.min.js" />
     <Content Include="Scripts\lib\lodash.min.js" />
