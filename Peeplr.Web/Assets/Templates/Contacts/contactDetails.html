@@ -33,7 +33,7 @@
     <div ng-repeat="email in contact.emails">
         <div class="col-md-2" ng-if="!$first"></div>
         <div class="col-md-10">
-            <span> {{email.emailString}} </span>
+            <a href="mailto:{{email.emailString}}"><span>{{email.emailString}} </span></a>
         </div>
     </div>
 </div>
