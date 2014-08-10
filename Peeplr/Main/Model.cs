@@ -8,7 +8,7 @@ namespace Peeplr.Main.Model.Queries
 {
     public interface IContactQueries 
     {
-        ent::Contact GetSingle(int id);
+        ent::Contact TryGetSingle(int id);
         IEnumerable<ent::Contact> GetAll();
         IEnumerable<ent::Contact> Get_forQuery(string query);
     }

@@ -10,6 +10,7 @@ namespace Peeplr.Web.Controllers
     using ent = Peeplr.Main.Model;
     using Peeplr.Main.Model.Queries;
     using Peeplr.Main.Model.Commands;
+    using System.Web;
 
     public class ContactsApiController : ApiController
     {
@@ -32,7 +33,11 @@ namespace Peeplr.Web.Controllers
         [HttpGet]
         public ent::Contact GetSingle(int id)
         {
-            return contactQueries.GetSingle(id);
+            var contact = contactQueries.TryGetSingle(id);
+
+            if (contact == null) { throw new HttpException(404, "Contact not found"); }
+
+            return contact;
         }
 
         [HttpGet]

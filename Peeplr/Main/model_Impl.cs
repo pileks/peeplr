@@ -10,7 +10,7 @@ namespace Peeplr.Main.Model.Queries
 {
     public class ContactQueries : IContactQueries
     {
-        public ent::Contact GetSingle(int id)
+        public ent::Contact TryGetSingle(int id)
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
