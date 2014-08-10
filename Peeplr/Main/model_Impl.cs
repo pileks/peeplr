@@ -216,19 +216,19 @@ namespace Peeplr.Main.Model.Commands
             var numbersToUpdate = numbers.Where(n => dbNumbers.Any(x => x.Id == n.Id));
             var numbersToDelete = dbNumbers.Where(n => !numbers.Any(x => x.Id == n.Id));
 
-            foreach (var n in numbersToCreate)
+            foreach (var number in numbersToCreate)
             {
-                Create(n.Type, n.NumberString, contactId);
+                Create(number.Type, number.NumberString, contactId);
             }
 
-            foreach (var n in numbersToUpdate)
+            foreach (var number in numbersToUpdate)
             {
-                Update(n);
+                Update(number);
             }
 
-            foreach (var n in numbersToDelete)
+            foreach (var number in numbersToDelete)
             {
-                Delete(n.Id);
+                Delete(number.Id);
             }
         }
 
@@ -355,14 +355,14 @@ namespace Peeplr.Main.Model.Commands
                 Create(email.EmailString, contactId);
             }
 
-            foreach (var e in emailsToUpdate)
+            foreach (var email in emailsToUpdate)
             {
-                Update(e);
+                Update(email);
             }
 
-            foreach (var e in emailsToDelete)
+            foreach (var email in emailsToDelete)
             {
-                Delete(e.Id);
+                Delete(email.Id);
             }
         }
 
