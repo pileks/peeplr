@@ -1,27 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-
-using ent = Peeplr.Main.Model;
+using Peeplr.Model.Queries;
+using ent = Peeplr.Model;
 using data = Peeplr.Data.Internal;
 using am = AutoMapper;
 
-namespace Peeplr.Main.Model.Queries
+namespace Peeplr.Model.Queries
 {
     public class ContactQueries : IContactQueries
     {
-        public ent::Contact TryGetSingle(int id)
+        public Contact TryGetSingle(int id)
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
-                return am::Mapper.Map<ent::Contact>(db.Contacts.SingleOrDefault(x => x.Id == id));
+                return am::Mapper.Map<Contact>(db.Contacts.SingleOrDefault(x => x.Id == id));
             }
         }
         public IEnumerable<Contact> GetAll()
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
-                return am::Mapper.Map<ent::Contact[]>(db.Contacts);
+                return am::Mapper.Map<Contact[]>(db.Contacts);
             }
         }
         public IEnumerable<Contact> Get_forQuery(string query)
@@ -47,7 +47,7 @@ namespace Peeplr.Main.Model.Queries
                 return db.Numbers
                          .Where(number => number.ContactId == contactId)
                          .ToList()
-                         .Select(number => am::Mapper.Map<ent::Number>(number));
+                         .Select(number => am::Mapper.Map<Number>(number));
             }
         }
     }
@@ -58,7 +58,7 @@ namespace Peeplr.Main.Model.Queries
         {
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
-                return am::Mapper.Map<ent::Tag[]>(db.Tags);
+                return am::Mapper.Map<Tag[]>(db.Tags);
             }
         }
     }
@@ -71,18 +71,18 @@ namespace Peeplr.Main.Model.Queries
             {
                 var contact = db.Contacts.Single(x => x.Id == contactId);
 
-                return am::Mapper.Map<ent::Email[]>(contact.Emails);
+                return am::Mapper.Map<Email[]>(contact.Emails);
             }
         }
     }
 }
 
-namespace Peeplr.Main.Model.Commands
+namespace Peeplr.Model.Commands
 {
-    using Peeplr.Main.Model.Queries;
+    using ent.Queries;
     using System.Diagnostics.Contracts;
 
-    using entValid = Peeplr.Main.Model.Validation;
+    using entValid = ent.Validation;
 
     public class ContactCommands : IContactCommands
     {
@@ -96,9 +96,9 @@ namespace Peeplr.Main.Model.Commands
             this.emailCommands = emailCommands;
         }
 
-        public void Create(ent::Contact contact)
+        public void Create(Contact contact)
         {
-            Contract.Assert(entValid::Contact.IsValid(contact));
+            Contract.Assert(Validation.Contact.IsValid(contact));
 
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
@@ -129,7 +129,7 @@ namespace Peeplr.Main.Model.Commands
         }
         public void Update(int contactId, Contact contact)
         {
-            Contract.Assert(entValid::Contact.IsValid(contact));
+            Contract.Assert(Validation.Contact.IsValid(contact));
 
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
@@ -208,7 +208,7 @@ namespace Peeplr.Main.Model.Commands
             this.numberQueries = numberQueries;
         }
 
-        public void UpdateNumbersForContact(int contactId, IEnumerable<ent::Number> numbers)
+        public void UpdateNumbersForContact(int contactId, IEnumerable<Number> numbers)
         {
             var dbNumbers = numberQueries.GetNumbersForContact(contactId);
 
@@ -246,9 +246,9 @@ namespace Peeplr.Main.Model.Commands
                 db.SaveChanges();
             }
         }
-        public void Update(ent::Number number)
+        public void Update(Number number)
         {
-            Contract.Assert(entValid::Number.IsValid(number));
+            Contract.Assert(Validation.Number.IsValid(number));
 
             using (var db = new data::PeeplrDatabaseModelContainer())
             {
@@ -342,7 +342,7 @@ namespace Peeplr.Main.Model.Commands
             this.emailQueries = emailQueries;
         }
 
-        public void UpdateEmailsForContact(int contactId, IEnumerable<ent::Email> emails)
+        public void UpdateEmailsForContact(int contactId, IEnumerable<Email> emails)
         {
             var dbEmails = emailQueries.Get_forContact(contactId);
 
@@ -377,9 +377,9 @@ namespace Peeplr.Main.Model.Commands
             }
         }
 
-        public void Update(ent::Email email)
+        public void Update(Email email)
         {
-            Contract.Assert(entValid::Email.IsValid(email));
+            Contract.Assert(Validation.Email.IsValid(email));
 
             using (var db = new data::PeeplrDatabaseModelContainer())
             {

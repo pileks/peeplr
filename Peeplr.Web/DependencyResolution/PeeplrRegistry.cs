@@ -1,7 +1,7 @@
 namespace Peeplr.Web.DependencyResolution
 {
-    using Peeplr.Main.Model.Commands;
-    using Peeplr.Main.Model.Queries;
+    using Model.Commands;
+    using Model.Queries;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 

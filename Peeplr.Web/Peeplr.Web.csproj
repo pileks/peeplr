@@ -245,6 +245,10 @@
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Peeplr.Model\Peeplr.Model.csproj">
+      <Project>{a267d7b2-b7df-44aa-a09f-a71d195b4b9c}</Project>
+      <Name>Peeplr.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Peeplr\Peeplr.csproj">
       <Project>{b40505ed-a2fa-4b05-9efc-986e843e31d4}</Project>
       <Name>Peeplr</Name>

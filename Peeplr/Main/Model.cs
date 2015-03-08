@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-using ent = Peeplr.Main.Model;
+using ent = Peeplr.Model;
 using data = Peeplr.Data.Internal;
 
-namespace Peeplr.Main.Model.Queries
+namespace Peeplr.Model.Queries
 {
     public interface IContactQueries 
     {
-        ent::Contact TryGetSingle(int id);
-        IEnumerable<ent::Contact> GetAll();
-        IEnumerable<ent::Contact> Get_forQuery(string query);
+        Contact TryGetSingle(int id);
+        IEnumerable<Contact> GetAll();
+        IEnumerable<Contact> Get_forQuery(string query);
     }
 
     public interface INumberQueries
@@ -20,36 +20,36 @@ namespace Peeplr.Main.Model.Queries
 
     public interface ITagQueries
     {
-        IEnumerable<ent::Tag> GetAll();
+        IEnumerable<Tag> GetAll();
     }
 
     public interface IEmailQueries
     {
-        IEnumerable<ent::Email> Get_forContact(int contactId);
+        IEnumerable<Email> Get_forContact(int contactId);
     }
 }
 
-namespace Peeplr.Main.Model.Commands
+namespace Peeplr.Model.Commands
 {
     public interface IContactCommands
     {
-        void Create(ent::Contact contact);
-        void Update(int contactId, ent::Contact contact);
+        void Create(Contact contact);
+        void Update(int contactId, Contact contact);
         void Delete(int contactId);
     }
 
     public interface INumberCommands
     {
-        void UpdateNumbersForContact(int contactId, IEnumerable<ent::Number> numbers);
+        void UpdateNumbersForContact(int contactId, IEnumerable<Number> numbers);
 
         void Create(string type, string numberString, int contactId);
-        void Update(ent::Number number);
+        void Update(Number number);
         void Delete(int numberId);
     }
 
     public interface ITagCommands 
     {
-        void UpdateAndAddTagsForContact(int contactId, IEnumerable<ent::Tag> tags);
+        void UpdateAndAddTagsForContact(int contactId, IEnumerable<Tag> tags);
 
         void Create(string name, int contactId);
         void AssignToContact(string name, int contactId);
@@ -57,10 +57,10 @@ namespace Peeplr.Main.Model.Commands
 
     public interface IEmailCommands
     {
-        void UpdateEmailsForContact(int contactId, IEnumerable<ent::Email> emails);
+        void UpdateEmailsForContact(int contactId, IEnumerable<Email> emails);
 
         void Create(string emailString, int contactId);
-        void Update(ent::Email email);
+        void Update(Email email);
         void Delete(int id);
     }
 }

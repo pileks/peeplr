@@ -70,6 +70,10 @@
       <Project>{772a1f16-0deb-456a-906e-1fc567ced9e8}</Project>
       <Name>Peeplr.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Peeplr.Model\Peeplr.Model.csproj">
+      <Project>{a267d7b2-b7df-44aa-a09f-a71d195b4b9c}</Project>
+      <Name>Peeplr.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

@@ -1,4 +1,4 @@
-﻿using ent = Peeplr.Main.Model;
+﻿using ent = Peeplr.Model;
 
 namespace Peeplr.Main.BusinessRules
 {

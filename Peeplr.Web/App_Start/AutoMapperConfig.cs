@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 using am = AutoMapper;
-using entMappings = Peeplr.Main.Model.Mappers;
+using entMappings = Peeplr.Model.Mappers;
 
 namespace Peeplr.Web
 {

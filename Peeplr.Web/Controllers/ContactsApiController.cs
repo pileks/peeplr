@@ -7,9 +7,9 @@ using System.Web.Http;
 
 namespace Peeplr.Web.Controllers
 {
-    using ent = Peeplr.Main.Model;
-    using Peeplr.Main.Model.Queries;
-    using Peeplr.Main.Model.Commands;
+    using ent = Model;
+    using Model.Queries;
+    using Model.Commands;
     using System.Web;
 
     public class ContactsApiController : ApiController
