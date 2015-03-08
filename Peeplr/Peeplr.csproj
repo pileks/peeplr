@@ -56,7 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main\Domain_BusinessRules.cs" />
-    <Compile Include="Main\Domain_Entities.cs" />
+    <Compile Include="Main\Entities_Helpers.cs" />
     <Compile Include="Main\Model_Impl.cs" />
     <Compile Include="Main\Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

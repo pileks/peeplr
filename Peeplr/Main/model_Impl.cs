@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Peeplr.Model.Queries;
 using ent = Peeplr.Model;
 using data = Peeplr.Data.Internal;
 using am = AutoMapper;
