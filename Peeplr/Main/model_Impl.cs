@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
+using Peeplr.Data;
+using Peeplr.Model.Queries;
 using ent = Peeplr.Model;
 using data = Peeplr.Data.Internal;
 using am = AutoMapper;
@@ -397,6 +400,355 @@ namespace Peeplr.Model.Commands
                 db.Emails.Remove(dbEmail);
                 db.SaveChanges();
             }
+        }
+    }
+}
+
+namespace Peeplr.Model.Queries.Test
+{
+    public class ContactQueries : IContactQueries
+    {
+        private readonly PeeplrDataContext db;
+        public ContactQueries(PeeplrDataContext db)
+        {
+            this.db = db;
+        }
+        public Contact TryGetSingle(int id)
+        {
+            return db.Contacts.Find(id);
+        }
+
+        public IEnumerable<Contact> GetAll()
+        {
+            return db.Contacts;
+        }
+
+        public IEnumerable<Contact> Get_forQuery(string query)
+        {
+            return db.Contacts;
+        }
+    }
+
+    public class TagQueries : ITagQueries
+    {
+        private readonly PeeplrDataContext db;
+        public TagQueries(PeeplrDataContext db)
+        {
+            this.db = db;
+        }
+        public IEnumerable<Tag> GetAll()
+        {
+            return db.Tags;
+        }
+    }
+
+    public class NumberQueries : INumberQueries
+    {
+        private readonly PeeplrDataContext db;
+        public NumberQueries(PeeplrDataContext db)
+        {
+            this.db = db;
+        }
+        public IEnumerable<Number> GetNumbersForContact(int contactId)
+        {
+            return db.Numbers;
+        }
+    }
+
+    public class EmailQueries : IEmailQueries
+    {
+        private readonly PeeplrDataContext db;
+        public EmailQueries(PeeplrDataContext db)
+        {
+            this.db = db;
+        }
+        public IEnumerable<Email> Get_forContact(int contactId)
+        {
+            return db.Emails;
+        }
+    }
+}
+
+namespace Peeplr.Model.Commands.Test
+{
+    public class ContactCommands : IContactCommands
+    {
+        private readonly INumberCommands numberCommands;
+        private readonly ITagCommands tagCommands;
+        private readonly IEmailCommands emailCommands;
+        private readonly PeeplrDataContext db;
+        public ContactCommands(INumberCommands numberCommands, ITagCommands tagCommands, IEmailCommands emailCommands, PeeplrDataContext db)
+        {
+            this.numberCommands = numberCommands;
+            this.tagCommands = tagCommands;
+            this.emailCommands = emailCommands;
+            this.db = db;
+        }
+
+        public void Create(Contact contact)
+        {
+            Contract.Assert(Validation.Contact.IsValid(contact));
+
+            var dbContact = new Contact()
+            {
+                FirstName = contact.FirstName,
+                LastName = contact.LastName,
+                StreetAddress = contact.StreetAddress,
+                City = contact.City,
+                Company = contact.Company
+            };
+
+            db.Contacts.Add(dbContact);
+            db.SaveChanges();
+
+            foreach (var n in contact.Numbers)
+            {
+                numberCommands.Create(n.Type, n.NumberString, dbContact.Id);
+            }
+
+            foreach (var e in contact.Emails)
+            {
+                emailCommands.Create(e.EmailString, dbContact.Id);
+            }
+
+            tagCommands.UpdateAndAddTagsForContact(dbContact.Id, contact.Tags);
+        }
+        public void Update(int contactId, Contact contact)
+        {
+            Contract.Assert(Validation.Contact.IsValid(contact));
+
+            var dbContact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
+
+            dbContact.FirstName = contact.FirstName;
+            dbContact.LastName = contact.LastName;
+            dbContact.StreetAddress = contact.StreetAddress;
+            dbContact.City = contact.City;
+            dbContact.Company = contact.Company;
+
+            db.SaveChanges();
+
+            numberCommands.UpdateNumbersForContact(contactId, contact.Numbers);
+
+            emailCommands.UpdateEmailsForContact(contactId, contact.Emails);
+
+            tagCommands.UpdateAndAddTagsForContact(contactId, contact.Tags);
+        }
+        public void Delete(int contactId)
+        {
+            var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
+
+            if (contact != null)
+            {
+                ClearContactNumbers(contact.Id);
+                ClearContactEmails(contact.Id);
+                ClearContactTags(contact.Id);
+
+                db.Contacts.Remove(contact);
+                db.SaveChanges();
+            }
+        }
+
+        private void ClearContactTags(int contactId)
+        {
+            var contact = db.Contacts.Single(x => x.Id == contactId);
+
+            contact.Tags.Clear();
+            db.SaveChanges();
+        }
+        private void ClearContactNumbers(int contactId)
+        {
+            var contact = db.Contacts.Single(x => x.Id == contactId);
+
+            db.Numbers.RemoveRange(contact.Numbers);
+            db.SaveChanges();
+        }
+        private void ClearContactEmails(int contactId)
+        {
+            var contact = db.Contacts.Single(x => x.Id == contactId);
+
+            db.Emails.RemoveRange(contact.Emails);
+            db.SaveChanges();
+        }
+    }
+
+    public class TagCommands : ITagCommands
+    {
+        private readonly ITagQueries tagQueries;
+        private readonly PeeplrDataContext db;
+        public TagCommands(ITagQueries tagQueries, PeeplrDataContext db)
+        {
+            this.tagQueries = tagQueries;
+            this.db = db;
+        }
+
+        public void UpdateAndAddTagsForContact(int contactId, IEnumerable<Tag> tags)
+        {
+            var dbTags = tagQueries.GetAll();
+
+            var tagsToCreate = tags.Where(t => !dbTags.Any(x => x.Name == t.Name));
+            var tagsToUpdate = tags.Except(tagsToCreate);
+
+            var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
+
+            contact.Tags.Clear();
+            db.SaveChanges();
+
+            foreach (var t in tagsToCreate)
+            {
+                Create(t.Name, contactId);
+            }
+
+            foreach (var t in tagsToUpdate)
+            {
+                AssignToContact(t.Name, contactId);
+            }
+        }
+
+        public void Create(string name, int contactId)
+        {
+            var tag = new Tag() { Name = name };
+
+            db.Tags.Add(tag);
+            db.SaveChanges();
+
+            var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
+
+            tag.Contacts.Add(contact);
+            db.SaveChanges();
+        }
+        public void AssignToContact(string name, int contactId)
+        {
+            var tag = db.Tags.SingleOrDefault(x => x.Name == name);
+            var contact = db.Contacts.SingleOrDefault(x => x.Id == contactId);
+
+            contact.Tags.Add(tag);
+            db.SaveChanges();
+        }
+    }
+
+    public class NumberCommands : INumberCommands
+    {
+        private readonly INumberQueries numberQueries;
+        private readonly PeeplrDataContext db;
+        public NumberCommands(INumberQueries numberQueries, PeeplrDataContext db)
+        {
+            this.numberQueries = numberQueries;
+            this.db = db;
+        }
+
+        public void UpdateNumbersForContact(int contactId, IEnumerable<Number> numbers)
+        {
+            var dbNumbers = numberQueries.GetNumbersForContact(contactId);
+
+            var numbersToCreate = numbers.Where(n => !dbNumbers.Any(x => x.Id == n.Id)).ToList();
+            var numbersToUpdate = numbers.Where(n => dbNumbers.Any(x => x.Id == n.Id)).ToList();
+            var numbersToDelete = dbNumbers.Where(n => !numbers.Any(x => x.Id == n.Id)).ToList();
+
+            foreach (var number in numbersToCreate)
+            {
+                Create(number.Type, number.NumberString, contactId);
+            }
+
+            foreach (var number in numbersToUpdate)
+            {
+                Update(number);
+            }
+
+            foreach (var number in numbersToDelete)
+            {
+                Delete(number.Id);
+            }
+        }
+
+        public void Create(string type, string numberString, int contactId)
+        {
+            var number = new Number()
+            {
+                Type = type,
+                NumberString = numberString,
+                ContactId = contactId
+            };
+            db.Numbers.Add(number);
+            db.SaveChanges();
+        }
+        public void Update(Number number)
+        {
+            Contract.Assert(Validation.Number.IsValid(number));
+
+            var dbNumber = db.Numbers.SingleOrDefault(x => x.Id == number.Id);
+
+            dbNumber.Type = number.Type;
+            dbNumber.NumberString = number.NumberString;
+
+            db.SaveChanges();
+        }
+        public void Delete(int numberId)
+        {
+            var dbNumber = db.Numbers.SingleOrDefault(x => x.Id == numberId);
+
+            db.Numbers.Remove(dbNumber);
+            db.SaveChanges();
+        }
+    }
+
+    public class EmailCommands : IEmailCommands
+    {
+        private readonly IEmailQueries emailQueries;
+        private readonly PeeplrDataContext db;
+        public EmailCommands(IEmailQueries emailQueries, PeeplrDataContext db)
+        {
+            this.emailQueries = emailQueries;
+            this.db = db;
+        }
+
+        public void UpdateEmailsForContact(int contactId, IEnumerable<Email> emails)
+        {
+            var dbEmails = emailQueries.Get_forContact(contactId);
+
+            var emailsToCreate = emails.Where(e => !dbEmails.Any(x => x.Id == e.Id)).ToList();
+            var emailsToUpdate = emails.Where(e => dbEmails.Any(x => x.Id == e.Id)).ToList();
+            var emailsToDelete = dbEmails.Where(e => !emails.Any(x => x.Id == e.Id)).ToList();
+
+            foreach (var email in emailsToCreate)
+            {
+                Create(email.EmailString, contactId);
+            }
+
+            foreach (var email in emailsToUpdate)
+            {
+                Update(email);
+            }
+
+            foreach (var email in emailsToDelete)
+            {
+                Delete(email.Id);
+            }
+        }
+
+        public void Create(string emailString, int contactId)
+        {
+            var dbEmail = new Email() { EmailString = emailString, ContactId = contactId };
+
+            db.Emails.Add(dbEmail);
+            db.SaveChanges();
+        }
+
+        public void Update(Email email)
+        {
+            Contract.Assert(Validation.Email.IsValid(email));
+
+            var dbEmail = db.Emails.Single(x => x.Id == email.Id);
+
+            dbEmail.EmailString = email.EmailString;
+            db.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var dbEmail = db.Emails.Single(x => x.Id == id);
+
+            db.Emails.Remove(dbEmail);
+            db.SaveChanges();
         }
     }
 }
